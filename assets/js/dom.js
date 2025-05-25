@@ -19,6 +19,10 @@ const clearField = function(champ){
     clearBorder(champ);
 }
 
+const clearRemember = function(champ){
+    champ.style.outline = "none";
+}
+
 const info = function (vue, text) {
     vue.textContent= text;
   };
@@ -42,6 +46,15 @@ const controlPassword = function(champ){
         successBorder(champ);
     }else{
         alertBorder(champ);
+    }
+}
+
+const controlRemember = function(champ){
+    if(champ.checked){
+        champ.style.outline = "2px solid #0cfa40";
+    }
+    if(!champ.checked){
+        champ.style.outline = "2px solid #fca5a5";
     }
 }
 
@@ -99,4 +112,5 @@ const redField = function(champ,text){
 }
 
 
-export {clearBorder,alertBorder,successBorder,clearField,controlEmail,info,greenField,controlPassword,redField,initialEmail,controlTerms,checkFields}; // a list of exported variables
+export {clearBorder,alertBorder,successBorder,clearField,controlEmail,info,greenField,controlPassword,
+    redField,initialEmail,controlTerms,checkFields,controlRemember,clearRemember}; // a list of exported variables

@@ -1,4 +1,4 @@
-import { alertBorder,clearField,controlEmail,controlPassword} from './dom.js';
+import { alertBorder,clearField,controlEmail,controlPassword,controlRemember,clearRemember} from './dom.js';
 window.onload = () => {
     /*----form_login----*/
     const form_login = document.body.querySelector('#form_login');
@@ -7,15 +7,28 @@ window.onload = () => {
         inputEmail.addEventListener('focus',function(){
             clearField(this);            
         });
-        inputEmail.addEventListener('input',function(){
+        inputEmail.addEventListener('change',function(){
+            controlEmail(this);
+        });
+        inputEmail.addEventListener('blur',function(){
             controlEmail(this);
         });
         const inputPassword = form_login.querySelector('#inputPassword');
         inputPassword.addEventListener('focus',function(){
             clearField(this);
         });
-        inputPassword.addEventListener('input',function(){
+        inputPassword.addEventListener('change',function(){
             controlPassword(this);
+        });
+        inputPassword.addEventListener('blur',function(){
+            controlPassword(this);
+        });
+        const inputRemember = form_login.querySelector('#remember_me');
+        inputRemember.addEventListener('focus',function(){
+            clearRemember(this);
+        });
+        inputRemember.addEventListener('blur',function(){
+            controlRemember(this);
         });
         const inputSubmit = form_login.querySelector('#inputSubmit')
             inputSubmit.addEventListener('click',function(event){
@@ -24,13 +37,22 @@ window.onload = () => {
                     let counter =0;
                     let nbBorder = 0;
                     for(var i =0; i < inputs.length; i++){
-                        if(inputs[i].type =='email' || inputs[i].type == 'password'){
+                        if(inputs[i].type =='email' || inputs[i].type == 'password' || inputs[i].type =='checkbox'){
                             fieldSuccess[i]=inputs[i];
-                            if(fieldSuccess[i].value ==''){
+                            console.log(fieldSuccess.length);
+                            if(fieldSuccess[i].type=='email'&& fieldSuccess[i].value =='' || fieldSuccess[i].type=='password' && fieldSuccess[i].value ==''){
                                 alertBorder(fieldSuccess[i]);
                                 counter++;
                             }
                             if(fieldSuccess[i].classList.contains('border-green-300')){
+                                nbBorder++;
+                            }
+                            if(fieldSuccess[i].type=='checkbox'  && !fieldSuccess[i].checked){
+                                fieldSuccess[i].style.outline ="2px solid #fca5a5";
+                                counter++;
+                            }
+                            if(fieldSuccess[i].type=='checkbox'  && fieldSuccess[i].checked){
+                                fieldSuccess[i].style.outline = "2px solid #0cfa40"
                                 nbBorder++;
                             }
                         }
