@@ -24,7 +24,7 @@ class RegistrationForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('email',EmailType::class,['attr'=>['class'=>'my-5 shadow-inner bg-gray-50 rounded-lg placeholder-black text-sm p-4 md:p-2 border-none block mt-1 w-full',
+        ->add('email',EmailType::class,['attr'=>['class'=>'input-gray',
         'placeholder'=>'Adresse courriel','autofocus'=>false,'required'=>true],
         'constraints' => [
             new Sequentially([
@@ -36,7 +36,7 @@ class RegistrationForm extends AbstractType
         ])
         ->add('plainPassword', PasswordType::class, [
             'mapped' => false,
-                'attr'=>['class'=>'my-5 shadow-inner bg-gray-50 rounded-lg placeholder-black text-sm p-4 md:p-2 border-none block mt-1 w-full
+                'attr'=>['class'=>'input-gray
                 ','placeholder'=>'Mot de passe','required'=>true
             ],
             'constraints' => [
@@ -61,7 +61,7 @@ class RegistrationForm extends AbstractType
 
             ],
             'label' => ' Accepter les conditions générales',
-            'label_attr' => ['class' => 'font-light text-gray-800 ml-4 dark:text-gray-300 text-xs', 'id' => 'agree_state'],
+            'label_attr' => ['class' => 'font-light text-gray-500 ml-4 dark:text-gray-300 text-xs', 'id' => 'agree_state'],
             'mapped' => false,
             'constraints' => [
                 new IsTrue([
