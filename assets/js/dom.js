@@ -70,7 +70,7 @@ const controlTerms = function(champ,slogan){
     if(!champ.checked){
         slogan ="";
         info(message,slogan);
-        let text = 'Accepter les conditions !';
+        let text = 'Accepter les conditions générales !';
         redField(allowAgreeTerms, text);
         champ.classList.remove('border', 'border-gray-50');
         champ.style.outline='2px solid #fca5a5';
@@ -111,6 +111,24 @@ const redField = function(champ,text){
     champ.classList.add('text-red-300');
 }
 
+const agreeTermsControl = function (champ, label) {
+    if (champ.checked) {
+      var information = "";
+      info(message, information);
+      var mention = "Conditions générales acceptées  OK !";
+      greenAllow(allowAgreeTerms, mention);
+      champ.style.outline = "2px solid lightgreen";
+      label.classList.remove("font-semibold");
+    } else if (!champ.checked) {
+      var information = "Acceptez les conditions pour continuer...";
+      info(message, information);
+      var mention = "";
+      redAllow(allowAgreeTerms, mention);
+      champ.style.outline = "2px solid red";
+      label.classList.add("font-semibold");
+    }
+  };
+
 
 export {clearBorder,alertBorder,successBorder,clearField,controlEmail,info,greenField,controlPassword,
-    redField,initialEmail,controlTerms,checkFields,controlRemember,clearRemember}; // a list of exported variables
+    redField,initialEmail,controlTerms,checkFields,controlRemember,clearRemember,agreeTermsControl}; // a list of exported variables

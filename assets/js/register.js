@@ -1,4 +1,5 @@
-import { redField, greenField, initialEmail, alertBorder, clearBorder, clearField, controlEmail, controlTerms, info, successBorder,checkFields } from './dom.js';
+import { redField, greenField, initialEmail, alertBorder, clearBorder, clearField, 
+    controlEmail, controlTerms, info, successBorder,checkFields,agreeTermsControl } from './dom.js';
 window.onload = () => {
     const registration_form = document.body.querySelector('#registration_form');
     if (registration_form) {
@@ -16,7 +17,7 @@ window.onload = () => {
         const registration_form_email = registration_form.querySelector('#registration_form_email');
         const registration_form_plainPassword = registration_form.querySelector('#registration_form_plainPassword');
         const registration_form_agreeTerms = registration_form.querySelector('#registration_form_agreeTerms');
-        const registration_form_submit = registration_form.querySelector('#registration_form_submit');
+        const registration_form_submit = registration_form.querySelector('#registration_form_submit');//registration_form_submit
         let information = "Suivez les instructionns...";
         info(message, information);
 
@@ -116,26 +117,29 @@ window.onload = () => {
 
         });
 
-        registration_form_submit.addEventListener('submit',function(e){
+        registration_form_submit.addEventListener('click',function(e){  
             let inputs =registration_form.getElementsByTagName('input');
             let cpt = 0; let nbborder =0; let fieldsuccess =[];
             for(var i =0; i< inputs.length; i++){
                 if(inputs[i].type=='email' || inputs[i].type=='password' || inputs[i].type=='checkbox'){
                     fieldsuccess[i]= inputs[i];
-                    if(fieldsuccess[i].type=="email" && fieldsuccess[i].value=='' || fieldsuccess[i].type && fieldsuccess[i].value ==''){
+                    if(fieldsuccess[i].type=="email" && fieldsuccess[i].value=='' || fieldsuccess[i].type=='password' && fieldsuccess[i].value ==''){
                         alertBorder(fieldsuccess[i]);
                         cpt++;
+                    }else{
+                        nbborder++;
                     }
                     if(fieldsuccess[i].type=="checkbox" && !fieldsuccess[i].checked){
                         fieldsuccess[i].classList.remove('border', 'border-gray-50');
                         fieldsuccess[i].style.outline='2px solid #fca5a5';
+                        cpt++;
                     }
                     if(fieldsuccess[i].classList.contains('border-green-600') ){
                         nbborder++;
                     }
                 }
             }
-            if(!registration_form_agreeTerms.checked || !cpt == 0 || !fieldsuccess.length ==nbborder){
+            if(!cpt == 0 || !fieldsuccess.length == nbborder){
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 return false;
