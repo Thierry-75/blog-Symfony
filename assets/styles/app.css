@@ -5,34 +5,34 @@
 @layer components {
         /** buttons classes **/
         .btn-validation {
-          @apply w-full py-3 px-4  shadow-md bg-neutral-100 hover:bg-neutral-200 focus:outline-none tracking-wider text-sm text-cyan-600 rounded-md;
+          @apply w-full py-3 px-4  shadow-sm shadow-gray-400 bg-neutral-100 hover:bg-neutral-200 focus:outline-none tracking-wider text-sm text-cyan-600 rounded-md;
         }
         .btn-amber {
-          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow relative bg-amber-500 text-stone-950 hover:bg-opacity-90;
+          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow-sm shadow-gray-400 relative bg-amber-400 text-stone-950 hover:bg-opacity-90;
         }
         .btn-connection {
-          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow relative bg-stone-900 text-white hover:bg-opacity-90;
+          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow-sm shadow-gray-400 relative bg-stone-900 text-white hover:bg-opacity-90;
         }
         .btn-azur {
-          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow relative text-white bg-cyan-600 hover:bg-cyan-800 hover:bg-opacity-90;
+          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow-sm shadow-gray-400 relative text-white bg-cyan-600 hover:bg-cyan-800 hover:bg-opacity-90;
         }
         .btn-marine {
-          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow relative bg-blue-500 text-white hover:bg-opacity-90;
+          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow-sm shadow-gray-400 relative bg-blue-500 text-white hover:bg-opacity-90;
         }
         .btn-rouge {
-          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow relative bg-red-500 text-white hover:bg-opacity-90;
+          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow-sm shadow-gray-400 relative bg-red-500 text-white hover:bg-opacity-90;
         }
         .btn-vert {
-          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow relative bg-green-500 text-white hover:bg-opacity-90;
+          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow-sm shadow-gray-400 relative bg-green-500 text-white hover:bg-opacity-90;
         }
         .btn-violet {
-          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow relative bg-purple-500 text-white hover:bg-opacity-90;
+          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow-sm shadow-gray-400 relative bg-purple-500 text-white hover:bg-opacity-90;
         }
         .btn-blanc {
-          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow relative bg-neutral-100 text-neutral-950 hover:bg-opacity-90;
+          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow-sm shadow-gray-400 relative bg-neutral-100 text-neutral-950 hover:bg-opacity-90;
         }
         .btn-noir {
-          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow relative bg-neutral-950 text-white hover:bg-opacity-90;
+          @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow-sm shadow-gray-400 relative bg-neutral-950 text-white hover:bg-opacity-90;
         }
 
 
