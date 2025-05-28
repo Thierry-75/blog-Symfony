@@ -2,14 +2,20 @@
 
 {% block title %}Reset your password{% endblock %}
 
+{% block importmap %}
+	{{ importmap('reset-password') }}
+{% endblock %}
 {% block body %}
 <div class="font-[sans-serif] max-w-3xl items-center mx-auto md:h-screen p-4">
 
 		<div class="grid md:grid-cols-3 items-center shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-xl overflow-hidden">
 			<div class="max-md:order-1 flex flex-col justify-center space-y-16 max-md:mt-16 min-h-full bg-gradient-to-r from-cyan-900 to-cyan-700 lg:px-8 px-4 py-4">
 				<div>
-					<h6 class="text-yellow-300 text-sm font-semibold">R&eacute;initialisation</h6>
-					<p class="text-[12px] italic text-gray-300 mt-2 leading-relaxed">Nouveau mot de passe</p>
+					<h6 class="text-yellow-300 text-sm font-semibold">Nouveau mot de passe</h6>
+					<p class="text-[12px] italic text-gray-300 mt-2 leading-relaxed"></p>
+					<p class="text-[12px] italic text-gray-300 mt-2 leading-relaxed">Indiquez votre adresse courriel</p>
+					<p class="text-[12px] italic text-gray-300 mt-2 leading-relaxed">Un lien d'activation pour 
+					modification vous sera envoy&eacute;.</p>
 					<ul id="allowState">
 						<li id="allowEmail" class="text-[12px] italic mt-4 ml-3 leading-relaxed"></li>
 						<li id="allowPassword" class="text-[12px] italic mt-1 ml-3 leading-relaxed"></li>
@@ -27,12 +33,12 @@
 			{{ form_start(requestForm, {attr: {
               novalidate: "novalidate",
               class: "bg-white md:col-span-2 w-full py-6 px-6 sm:px-16",
-              id: "request_form"
+              id: "reset_password_request"
             }
           })
         }}
-			<div class="mb-6">
-				<h3 class=" text-2xl font-light text-center text-cyan-600">Modification</h3>
+			<div class="mb-4">
+				<h3 class=" text-2xl font-light text-center text-cyan-600">Mot de passe</h3>
 			</div>
 
 			<div class="space-y-6">
@@ -49,10 +55,8 @@
 					</div>
 				</div>
 			</div>
-            	<div class="space-y-4 mt-4">
-                    <p class="text-gray-500 text-xs font-light text-center">Indiquez votre adresse courriel,</p>
-                 <p class="text-gray-500 text-xs font-light text-center">
-                 Un lien vous sera transmis pour modifier votre mot de passe.</p>
+            	<div class="space-y-4 mt-1">
+                    <p class="text-gray-500 text-xs font-light text-center">&nbsp;</p>
                 </div>
 
 			<div class="!mt-12">

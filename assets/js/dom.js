@@ -80,14 +80,30 @@ const controlTerms = function(champ,slogan){
 const checkFields = function(){
     if(registration_form_email.classList.contains('border-green-300') && registration_form_plainPassword.classList.contains('border-green-300') && registration_form_agreeTerms.checked){
         message.innerHTML="";
-        registration_form_submit.classList.remove('text-white')
-        registration_form_submit.classList.add('text-yellow-200');
+        registration_form_submit.classList.remove('text-cyan-600')
+        registration_form_submit.classList.add('text-neutral-950');
+        successBorder(registration_form_submit);
         registration_form_submit.textContent="Validez votre saisie";
     }
     else{
-        registration_form_submit.classList.remove('text-yellow-200');
-        registration_form_submit.classList.add('text-white')
+        registration_form_submit.classList.remove('text-neutral-950');
+        registration_form_submit.classList.add('text-cyan-600')
         registration_form_submit.textContent="Créer votre compte";
+    }
+}
+
+const checkEmail = function(champ,bouton){
+    if(champ.classList.contains('border-green-300')){
+        message.innerHTML="";
+        bouton.classList.remove('text-cyan-600');
+        bouton.classList.add('text-neutral-950');
+        bouton.textContent='Validez votre saisie';
+        successBorder(request_form_submit);
+    }else{
+        bouton.classList.remove('text-neutral-950');
+        bouton.classList.add('text-cyan-600');
+        bouton.textContent="Envoyer";
+        clearBorder(bouton);
     }
 }
 
@@ -111,6 +127,13 @@ const redField = function(champ,text){
     champ.classList.add('text-red-300');
 }
 
+const yellowfield = function(champ,text){
+    champ.style.display = 'block';
+    champ.innerHTML = text;
+    champ.classList.remove('text-green-300, text-red-300');
+    champ.classList.add('text-yellow-400');
+}
+
 const agreeTermsControl = function (champ, label) {
     if (champ.checked) {
       var information = "";
@@ -131,4 +154,4 @@ const agreeTermsControl = function (champ, label) {
 
 
 export {clearBorder,alertBorder,successBorder,clearField,controlEmail,info,greenField,controlPassword,
-    redField,initialEmail,controlTerms,checkFields,controlRemember,clearRemember,agreeTermsControl}; // a list of exported variables
+    redField,initialEmail,controlTerms,checkFields,controlRemember,clearRemember,agreeTermsControl,yellowfield,checkEmail}; // a list of exported variables
