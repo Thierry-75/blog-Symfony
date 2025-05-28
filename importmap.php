@@ -28,6 +28,10 @@ return [
         'path' => './assets/js/reset-password.js',
         'entrypoint' => true, 
     ],
+    'new-password'=>[
+        'path' => './assets/js/new-password.js',
+        'entrypoint' => true, 
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

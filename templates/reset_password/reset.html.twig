@@ -1,12 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
-
+{% block title %}Nouveau mot de passe
+{% endblock %}
+{% block importmap %}
+	{{ importmap('new-password') }}
+{% endblock %}
 {% block body %}
-    <h1>Reset your password</h1>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+
+	<div class="font-[sans-serif] max-w-3xl items-center mx-auto md:h-screen p-4">
+
+
+		<div class="grid md:grid-cols-3 items-center shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-xl overflow-hidden">
+			<div class="max-md:order-1 flex flex-col justify-center space-y-16 max-md:mt-16 min-h-full bg-gradient-to-r from-cyan-900 to-cyan-700 lg:px-8 px-4 py-4">
+				<div>
+					<h6 class="text-yellow-300 text-sm font-semibold">Réinitialisation</h6>
+					<p class="text-[12px] italic text-gray-300 mt-2 leading-relaxed">Bienvenue.
+					</p>
+					<p class="text-[12px] italic text-gray-300 mt-2 leading-relaxed">Indiquez votre nouveau mot de passe.
+					</p>
+					<ul id="allowState">
+						<li id="allowEmail" class="text-[12px] italic mt-4 ml-3 leading-relaxed"></li>
+						<li id="allowPassword" class="text-[12px] italic mt-1 ml-3 leading-relaxed"></li>
+						<li id="allowAgreeTerms" class="text-[12px] italic mt-1 ml-3 leading-relaxed"></li>
+					</ul>
+				</div>
+				<div>
+					<h6 class="text-white text-sm font-semibold">Enregistrement sécurisé</h6>
+					<p id="message" class="text-[12px] italic text-yellow-200 mt-2 leading-relaxed"></p>
+					<div class="ml-4">
+						<ul id='password_criteria' class="text-yellow-200">
+							<li id="password_length_criteria" data-password-criteria>12 caractères au total</li>
+							<li id="password_special_character_criteria" data-password-criteria>1 caractère spécial</li>
+							<li id="password_uppercase_criteria" data-password-criteria>1 lettre majuscule</li>
+							<li id="password_number_criteria" data-password-criteria>1 chiffre au moins</li>
+							<li id="password_lowercase_criteria" data-password-criteria>1 lettre minuscule</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			{{ form_start(resetForm, {attr: {
+              novalidate: "novalidate",
+              class: "bg-white md:col-span-2 w-full py-6 px-6 sm:px-16",
+              id: "reset_form"
+            }
+          })
+        }}
+			<div class="mb-6">
+				<h3 class=" text-2xl font-light text-center text-cyan-600">Saisir</h3>
+			</div>
+
+			<div class="space-y-6">
+				<div>
+					<div class="relative w-full min-w-full max-w-full block items-center">
+						{{ form_widget(resetForm.plainPassword) }}
+						<div class="text-sm text-red-700">
+							{{ form_errors(resetForm.plainPassword) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="!mt-8">
+				<button type="submit" id="registration_form_submit" class="btn-validation">
+					Nouveau mot de passe
+				</button>
+			</div>
+			{{ form_end(resetForm) }}
+
+		</div>
+	</div>
+
+
 {% endblock %}

@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Sequentially;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
@@ -21,31 +22,29 @@ class ChangePasswordForm extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'options' => [
-                    'attr' => [
-                        'autocomplete' => 'new-password',
+                    'attr' => [ 'class'=>'input-gray block w-full p-2.5','placeholder'=>'Mot de passe','required'=>true,'autocomplete' => 'new-password',
                     ],
                 ],
                 'first_options' => [
                     'constraints' => [
-                        new NotBlank([
-                            'message' => 'Please enter a password',
-                        ]),
-                        new Length([
-                            'min' => 12,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
-                            // max length allowed by Symfony for security reasons
-                            'max' => 12,
-                            'maxMessage'=>'Your password should be at least {{ limit }} characters',
-                        ]),
-                        new Regex(
-                            pattern: '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{12}$/i',
-                            htmlPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{12}$'
-                        )
+                        new Sequentially([
+                            new NotBlank(['message' => '']),
+                            new Length([
+                                'min' => 12,
+                                'max' => 12,
+                                'minMessage' => '',
+                                'maxMessage' => ''
+                            ]),
+                            new Regex(
+                                pattern: '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{12,12}$/i',
+                                htmlPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{12,12}$'
+                            )
+                        ])
                     ],
-                    'label' => 'New password',
+                    'label' => 'Nouveau mot de passse',
                 ],
                 'second_options' => [
-                    'label' => 'Repeat Password',
+                    'label' => 'Confimation du mot de passe',
                 ],
                 'invalid_message' => 'The password fields must match.',
                 // Instead of being set onto the object directly,
