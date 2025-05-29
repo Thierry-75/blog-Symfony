@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Sequentially;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
 use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
 
@@ -51,6 +52,8 @@ class ChangePasswordForm extends AbstractType
                 // this is read and encoded in the controller
                 'mapped' => false,
             ])
+            ->add('submit',SubmitType::class,['attr'=>['id'=>'registration_form_submit','class'=>'btn-validation'],
+            'label'=>'Nouveau mot de passe'])
         ;
     }
 

@@ -98,7 +98,7 @@ const checkEmail = function(champ,bouton){
         bouton.classList.remove('text-cyan-600');
         bouton.classList.add('text-neutral-950');
         bouton.textContent='Validez votre saisie';
-        successBorder(request_form_submit);
+        successBorder(bouton);
     }else{
         bouton.classList.remove('text-neutral-950');
         bouton.classList.add('text-cyan-600');
@@ -106,6 +106,16 @@ const checkEmail = function(champ,bouton){
         clearBorder(bouton);
     }
 }
+const checkPasswords = function(champ1,champ2,bouton){
+    if(champ1.classList.contains('border-green-300') && champ2.classList.contains('border-green-300')){
+        message.innerHTML="";
+        bouton.classList.remove('text-cyan-600');
+        bouton.classList.add('text-neutral-950');
+        bouton.textContent='Validez votre saisie';
+        successBorder(bouton);
+    }
+}
+
 
 const initialEmail = function(){
     allowEmail.style.display ='none';
@@ -153,5 +163,5 @@ const agreeTermsControl = function (champ, label) {
   };
 
 
-export {clearBorder,alertBorder,successBorder,clearField,controlEmail,info,greenField,controlPassword,
+export {clearBorder,alertBorder,successBorder,clearField,controlEmail,info,greenField,controlPassword,checkPasswords,
     redField,initialEmail,controlTerms,checkFields,controlRemember,clearRemember,agreeTermsControl,yellowfield,checkEmail}; // a list of exported variables

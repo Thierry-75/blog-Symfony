@@ -18,7 +18,7 @@ window.onload = () => {
         const registration_form_plainPassword = registration_form.querySelector('#registration_form_plainPassword');
         const registration_form_agreeTerms = registration_form.querySelector('#registration_form_agreeTerms');
         const registration_form_submit = registration_form.querySelector('#registration_form_submit');//registration_form_submit
-        let information = "Suivez les instructionns...";
+        let information = "Suivez les instructions...";
         info(message, information);
 
         registration_form_email.addEventListener('focus', function () {

@@ -17,7 +17,7 @@
 					<h6 class="text-yellow-300 text-sm font-semibold">Réinitialisation</h6>
 					<p class="text-[12px] italic text-gray-300 mt-2 leading-relaxed">Bienvenue.
 					</p>
-					<p class="text-[12px] italic text-gray-300 mt-2 leading-relaxed">Indiquez votre nouveau mot de passe.
+					<p class="text-[12px] italic text-gray-300 mt-2 leading-relaxed">Saisir votre mot de passe.
 					</p>
 					<ul id="allowState">
 						<li id="allowEmail" class="text-[12px] italic mt-4 ml-3 leading-relaxed"></li>
@@ -40,9 +40,9 @@
 				</div>
 			</div>
 			{{ form_start(resetForm, {attr: {
-              novalidate: "novalidate",
+              novalidate: "novalidate",id:"reset_password_form",
               class: "bg-white md:col-span-2 w-full py-6 px-6 sm:px-16",
-              id: "reset_form"
+              
             }
           })
         }}
@@ -61,9 +61,7 @@
 				</div>
 			</div>
 			<div class="!mt-8">
-				<button type="submit" id="registration_form_submit" class="btn-validation">
-					Nouveau mot de passe
-				</button>
+					{{ form_widget(resetForm.submit)}}
 			</div>
 			{{ form_end(resetForm) }}
 
