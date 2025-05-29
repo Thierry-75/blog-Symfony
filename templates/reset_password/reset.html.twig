@@ -52,7 +52,7 @@
 
 			<div class="space-y-6">
 				<div>
-					<div class="relative w-full min-w-full max-w-full block items-center">
+					<div class="relative block items-center">
 						{{ form_widget(resetForm.plainPassword) }}
 						<div class="text-sm text-red-700">
 							{{ form_errors(resetForm.plainPassword) }}
@@ -61,7 +61,7 @@
 				</div>
 			</div>
 			<div class="!mt-8">
-					{{ form_widget(resetForm.submit)}}
+				<button type="submit" id="change_password_form_submit" class="btn-validation">Nouveau mot de passe</button>
 			</div>
 			{{ form_end(resetForm) }}
 
