@@ -1,4 +1,4 @@
-import { redField, greenField, alertBorder, clearBorder, clearField, info,uncheckPasswords 
+import { redField, greenField, alertBorder, clearBorder, clearField, info
     ,successBorder,checkPasswords, initialEmail } from "./dom.js";
 
 window.onload = () => {
@@ -17,7 +17,7 @@ window.onload = () => {
         const all_password_criteria = document.body.querySelectorAll("li[data-password-criteria]");
         const password_plainPassword_first = change_password_form.querySelector('#change_password_form_plainPassword_first'); 
         const password_plainPassword_second = change_password_form.querySelector('#change_password_form_plainPassword_second'); 
-        const registration_form_submit = change_password_form.querySelector('#change_password_form_submit');
+        const registration_form_submit = change_password_form.querySelector('#change_password_form_submit'); //change_password_form_submit
         let information = "Suivez les instructions...";
         info(message, information);
 
@@ -36,7 +36,7 @@ window.onload = () => {
                 all_password_criteria.forEach((li) => (li.className = ""));
                 password_length_criteria.textContent = "12 caractères au total";
             }
-            uncheckPasswords(registration_form_submit);
+            checkPasswords(password_plainPassword_first,password_plainPassword_second,registration_form_submit);
         });
 
         password_plainPassword_first.addEventListener('input',function({ currentTarget}){
@@ -47,6 +47,7 @@ window.onload = () => {
             password_number_criteria.className = `password-criteria-${/[0-9]/.test(password)}`;
             password_lowercase_criteria.className = `password-criteria-${/[a-zà-ú]/.test(password)}`;
             password_length_criteria.textContent = `12 caractères au total (${password.length}) `;
+            checkPasswords(password_plainPassword_first,password_plainPassword_second,registration_form_submit);
         });
 
         password_plainPassword_first.addEventListener('blur',function( { currentTarget}){
@@ -64,6 +65,7 @@ window.onload = () => {
             redField(allowEmail, text);
             alertBorder(this);
         }
+        checkPasswords(password_plainPassword_first,password_plainPassword_second,registration_form_submit);
         password_criteria.style.display = "none";
         });
         password_plainPassword_second.addEventListener('focus', function ({ currentTarget }){
@@ -80,7 +82,8 @@ window.onload = () => {
             allowPassword.style.display = 'block'; 
             allowPassword.innerHTML=text;
             password_criteria.style.display = "block";
-            uncheckPasswords(registration_form_submit);
+            checkPasswords(password_plainPassword_first,password_plainPassword_second,registration_form_submit);
+            
         });
 
         password_plainPassword_second.addEventListener('input',function({ currentTarget}){
@@ -91,6 +94,7 @@ window.onload = () => {
             password_number_criteria.className = `password-criteria-${/[0-9]/.test(password)}`;
             password_lowercase_criteria.className = `password-criteria-${/[a-zà-ú]/.test(password)}`;
             password_length_criteria.textContent = `12 caractères au total (${password.length}) `;
+            checkPasswords(password_plainPassword_first,password_plainPassword_second,registration_form_submit);
         });
 
         password_plainPassword_second.addEventListener('blur',function( { currentTarget}){
@@ -106,32 +110,42 @@ window.onload = () => {
             successBorder(this);
             information="";
             info(message,information);
-            checkPasswords(registration_form_submit);
         } else {
             let text = ' ';
             redField(allowPassword, text);
             alertBorder(this);
-            uncheckPasswords(registration_form_submit);
         }
+        checkPasswords(password_plainPassword_first,password_plainPassword_second,registration_form_submit);
         password_criteria.style.display = "none";
 
         });
 
+        registration_form_submit.addEventListener('focus',function(){
+            checkPasswords(password_plainPassword_first,password_plainPassword_second,registration_form_submit);
+        });
+
         registration_form_submit.addEventListener('click',function(e){
             let inputs = change_password_form.getElementsByTagName('input');
-            let cpt =0; let nbBorder = 0; let fieldSuccess = [];
+            let cpt =0; let nbBorder = 0; let fieldSuccess = [];let num =0;let compare1;let compare2;
             for(let i =0; i < inputs.length; i++){
                 if(inputs[i].type=="password"){
                     fieldSuccess[i]=inputs[i];
-                    if(fieldSuccess[i].type=="password" && fieldSuccess[i].value==''){
+                    if(fieldSuccess[i].value==''){
                         alertBorder(fieldSuccess[i]);
                         cpt++;
                     }else{
+                        if(num ==0){
+                            compare1=fieldSuccess[num];
+                        }
+                        else{
+                            compare2=fieldSuccess[num];
+                        }
                         nbBorder++;
+                        num++;
                     }
                 }
             }
-            if(!cpt ==0 || !fieldSuccess.length == nbBorder || password_plainPassword_first.value.localeCompare(password_plainPassword_second)==0){
+            if(!cpt==0 || !fieldSuccess.length == nbBorder || compare1.value !== compare2.value ){
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 return false;

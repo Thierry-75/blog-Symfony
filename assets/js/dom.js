@@ -77,48 +77,49 @@ const controlTerms = function(champ,slogan){
     }
 }
 
-const checkFields = function(){
-    if(registration_form_email.classList.contains('border-green-300') && registration_form_plainPassword.classList.contains('border-green-300') && registration_form_agreeTerms.checked){
+const checkFields = function(champ1,champ2,champ3,bouton){
+    if(champ1.classList.contains('border-green-300') && champ2.classList.contains('border-green-300') && champ3.checked){
         message.innerHTML="";
-        registration_form_submit.classList.remove('text-cyan-600')
-        registration_form_submit.classList.add('text-neutral-950');
-        successBorder(registration_form_submit);
-        registration_form_submit.textContent="Validez votre saisie";
+        bouton.classList.remove('btn-confirmation');
+        bouton.classList.add('btn-validation');
+        bouton.textContent="Validez votre saisie";
     }
     else{
-        registration_form_submit.classList.remove('text-neutral-950');
-        registration_form_submit.classList.add('text-cyan-600')
-        registration_form_submit.textContent="Créer votre compte";
+        bouton.classList.remove('btn-validation');
+        bouton.classList.add('btn-confirmation');
+        bouton.textContent="Saisir";
     }
 }
 
 const checkEmail = function(champ,bouton){
     if(champ.classList.contains('border-green-300')){
         message.innerHTML="";
-        bouton.classList.remove('text-cyan-600');
-        bouton.classList.add('text-neutral-950');
+        bouton.classList.remove('btn-confirmation');
+        bouton.classList.add('btn-validation');
         bouton.textContent='Validez votre saisie';
-        successBorder(bouton);
     }else{
-        bouton.classList.remove('text-neutral-950');
-        bouton.classList.add('text-cyan-600');
-        bouton.textContent="Envoyer";
-        clearBorder(bouton);
+        bouton.classList.remove('btn-validation');
+        bouton.classList.add('btn-confirmation');
+        bouton.textContent="Saisir";
     }
 }
-const checkPasswords = function(bouton){
+const checkPasswords = function(champ1,champ2,bouton){  //localeCompare
+    if(champ1.value===champ2.value){
+    if(champ1.classList.contains('border-green-300') && champ2.classList.contains('border-green-300')){
+       // if(champ1.value.localeCompare(champ2.value)){
     message.innerHTML="";
-    bouton.classList.remove('text-cyan-600');
-    bouton.classList.add('text-neutral-950');
+    bouton.classList.remove('btn-confirmation');
+    bouton.classList.add('btn-validation');
     bouton.textContent='Validez votre saisie';
-    successBorder(bouton);
-}
-const uncheckPasswords = function(bouton){
-    bouton.classList.remove('text-neutral-950');
-    bouton.classList.add('text-cyan-600');
+        }
+    }else{
+    bouton.classList.remove('btn-validation');
+    bouton.classList.add('btn-confirmation');
     bouton.textContent="Nouveau mot de passe";
-    clearBorder(bouton);
-} 
+    }
+    
+}
+
 
 
 const initialEmail = function(){
@@ -167,5 +168,5 @@ const agreeTermsControl = function (champ, label) {
   };
 
 
-export {clearBorder,alertBorder,successBorder,clearField,controlEmail,info,greenField,controlPassword,checkPasswords,uncheckPasswords,
+export {clearBorder,alertBorder,successBorder,clearField,controlEmail,info,greenField,controlPassword,checkPasswords,
     redField,initialEmail,controlTerms,checkFields,controlRemember,clearRemember,agreeTermsControl,yellowfield,checkEmail}; // a list of exported variables

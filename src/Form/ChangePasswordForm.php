@@ -23,8 +23,8 @@ class ChangePasswordForm extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'options' => [
-                    'attr' => [ 'class'=>'input-gray block w-full p-2.5','placeholder'=>'Mot de passe','required'=>true,'autocomplete' => 'new-password',
-                    ],
+                    'attr' => [ 'class'=>'input-gray block w-full p-2.5','required'=>true,'autocomplete' => 'new-password',
+                    ],'label_attr'=>['class'=>'text-xs text-cyan-600']
                 ],
                 'first_options' => [
                     'constraints' => [
@@ -42,10 +42,10 @@ class ChangePasswordForm extends AbstractType
                             )
                         ])
                     ],
-                    'label' => 'Nouveau mot de passse',
+                    'label' => 'Mot de passe',
                 ],
-                'second_options' => [
-                    'label' => 'Confimation du mot de passe',
+                'second_options' => [ 
+                    'label' => 'Confimation',
                 ],
                 'invalid_message' => 'The password fields must match.',
                 // Instead of being set onto the object directly,

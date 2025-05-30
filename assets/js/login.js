@@ -1,34 +1,46 @@
-import { alertBorder,clearField,controlEmail,controlPassword,controlRemember,clearRemember} from './dom.js';
+import { alertBorder,clearField,controlEmail,controlPassword,controlRemember,clearRemember, checkFields} from './dom.js';
 window.onload = () => {
     /*----form_login----*/
     const form_login = document.body.querySelector('#form_login');
     if(form_login){
         const inputEmail = form_login.querySelector('#inputEmail');
         inputEmail.addEventListener('focus',function(){
-            clearField(this);            
+            clearField(this);       
+            checkFields(inputEmail,inputPassword,inputRemember,inputSubmit);     
         });
-        inputEmail.addEventListener('change',function(){
+        inputEmail.addEventListener('innput',function(){
             controlEmail(this);
+            checkFields(inputEmail,inputPassword,inputRemember,inputSubmit);
         });
         inputEmail.addEventListener('blur',function(){
             controlEmail(this);
+            checkFields(inputEmail,inputPassword,inputRemember,inputSubmit);
         });
         const inputPassword = form_login.querySelector('#inputPassword');
         inputPassword.addEventListener('focus',function(){
             clearField(this);
+            checkFields(inputEmail,inputPassword,inputRemember,inputSubmit);
         });
-        inputPassword.addEventListener('change',function(){
+        inputPassword.addEventListener('input',function(){
             controlPassword(this);
+            checkFields(inputEmail,inputPassword,inputRemember,inputSubmit);
         });
         inputPassword.addEventListener('blur',function(){
             controlPassword(this);
+            checkFields(inputEmail,inputPassword,inputRemember,inputSubmit);
         });
         const inputRemember = form_login.querySelector('#remember_me');
         inputRemember.addEventListener('focus',function(){
             clearRemember(this);
+            checkFields(inputEmail,inputPassword,inputRemember,inputSubmit);
+        });
+        inputRemember.addEventListener('input',function(){
+            controlRemember(this);
+            checkFields(inputEmail,inputPassword,inputRemember,inputSubmit);
         });
         inputRemember.addEventListener('blur',function(){
             controlRemember(this);
+            checkFields(inputEmail,inputPassword,inputRemember,inputSubmit);
         });
         const inputSubmit = form_login.querySelector('#inputSubmit')
             inputSubmit.addEventListener('click',function(event){

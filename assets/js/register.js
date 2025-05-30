@@ -17,7 +17,7 @@ window.onload = () => {
         const registration_form_email = registration_form.querySelector('#registration_form_email');
         const registration_form_plainPassword = registration_form.querySelector('#registration_form_plainPassword');
         const registration_form_agreeTerms = registration_form.querySelector('#registration_form_agreeTerms');
-        const registration_form_submit = registration_form.querySelector('#registration_form_submit');//registration_form_submit
+        const registration_form_submit = registration_form.querySelector('#registration_form_submit');
         let information = "Suivez les instructions...";
         info(message, information);
 
@@ -28,7 +28,7 @@ window.onload = () => {
             clearBorder(this);
             initialEmail(allowEmail);
             password_criteria.style.display = "none";
-            checkFields();
+            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
         });
 
         registration_form_email.addEventListener('input', function () {
@@ -40,7 +40,7 @@ window.onload = () => {
                 let text = 'Adresse email OK!';
                 greenField(allowEmail, text);
             }
-            checkFields();
+            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
         });
 
         registration_form_email.addEventListener('blur',function(){
@@ -51,7 +51,7 @@ window.onload = () => {
                 let text = 'Adresse email OK!';
                 greenField(allowEmail, text);
             }
-            checkFields();
+            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
         });
 
         registration_form_plainPassword.addEventListener('focus', function ({ currentTarget }) {
@@ -66,7 +66,7 @@ window.onload = () => {
             info(message, information);
            
             password_criteria.style.display = "block";
-            checkFields();
+            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
         });
 
         registration_form_plainPassword.addEventListener('input', function ({ currentTarget }) {
@@ -77,7 +77,7 @@ window.onload = () => {
             password_number_criteria.className = `password-criteria-${/[0-9]/.test(password)}`;
             password_lowercase_criteria.className = `password-criteria-${/[a-zà-ú]/.test(password)}`;
             password_length_criteria.textContent = `12 caractères au total (${password.length}) `;
-            checkFields();
+            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
         });
 
         registration_form_plainPassword.addEventListener('blur', function ({currentTarget}) {
@@ -96,24 +96,24 @@ window.onload = () => {
                 alertBorder(this);
             }
             password_criteria.style.display = "none";
-            checkFields();
+            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
 
         });
 
         registration_form_agreeTerms.addEventListener('focus',function(){
             information = "Accepter les conditions générales";
             info(message, information);
-            checkFields();
+            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
         });
 
         registration_form_agreeTerms.addEventListener('input',function(){
             controlTerms(this,information);
-            checkFields();
+            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
    
         });
         registration_form_agreeTerms.addEventListener('blur',function(){
             controlTerms(this,information);
-            checkFields();
+            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
 
         });
 

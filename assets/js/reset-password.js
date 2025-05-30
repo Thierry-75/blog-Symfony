@@ -1,4 +1,4 @@
-import { clearField,info,controlEmail, redField, greenField, checkEmail } from "./dom.js";
+import { clearField,info,controlEmail, redField, greenField, checkEmail, alertBorder, successBorder } from "./dom.js";
 
 window.onload = () => {
     const form_reset_password = document.body.querySelector('#reset_password_request');  //reset_password_request
@@ -21,10 +21,13 @@ window.onload = () => {
             if(controlEmail(this)===false){
                 let text = 'adresse couriel incorrecte !';
                 redField(allowEmail,text);
+                alertBorder(this);
             } else if(controlEmail(this)===true){
                 let text = 'Adresse courriel ok !';
                 greenField(allowEmail,text);
+                successBorder(this);
             }
+            checkEmail(inputEmail,request_form_submit);
         });
         inputEmail.addEventListener('blur',function(){
             controlEmail(this);
