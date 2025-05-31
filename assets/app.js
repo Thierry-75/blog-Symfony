@@ -7,5 +7,6 @@
  */
 import './styles/app.css';
 import './js/nav.js';
+import './js/alert.js';
 import './js/ripple.js';
 

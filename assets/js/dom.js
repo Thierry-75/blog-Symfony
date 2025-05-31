@@ -106,7 +106,6 @@ const checkEmail = function(champ,bouton){
 const checkPasswords = function(champ1,champ2,bouton){  //localeCompare
     if(champ1.value===champ2.value){
     if(champ1.classList.contains('border-green-300') && champ2.classList.contains('border-green-300')){
-       // if(champ1.value.localeCompare(champ2.value)){
     message.innerHTML="";
     bouton.classList.remove('btn-confirmation');
     bouton.classList.add('btn-validation');
