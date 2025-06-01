@@ -18,7 +18,7 @@ class IntraController
     static function completeCoordonnees($user)
     {
         if(!$user == null){
-            if($user->isVerified() === true && $user->isCompleted() === false){
+            if($user->isVerified() === true && $user->isFull() === false){
                 return true;
             }
         }
