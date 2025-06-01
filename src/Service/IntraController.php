@@ -6,7 +6,7 @@ namespace App\Service;
 class IntraController
 {
     
-    static function confirmationEmail($user)
+    static function confirmEmail($user)
     {
         if(!$user == null){
             if($user->isVerified()  == false){
