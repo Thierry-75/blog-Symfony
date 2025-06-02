@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     #[ORM\Column]
-    private ?bool $isFull = null;
+    private ?bool $isFull = false;
 
     #[ORM\OneToOne(mappedBy: 'subscriber', cascade: ['persist', 'remove'])]
     private ?Avatar $avatar = null;

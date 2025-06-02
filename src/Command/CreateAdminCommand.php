@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'create-adminstrator',description: 'Creation compte Administrateur')]
+#[AsCommand(name: 'create-administrator',description: 'Creation compte Administrateur')]
 class CreateAdminCommand extends Command
 {
     private EntityManagerInterface $em;
@@ -47,7 +47,7 @@ class CreateAdminCommand extends Command
         $admin = new User();
         $admin->setEmail($email)
               ->setPlainPassword($plainPassword)
-              ->setRoles(['ROLE_USER,ROLE_REDACTOR,ROLE_ADMIN'])
+              ->setRoles(['ROLE_REDACTOR,ROLE_ADMIN'])
               ->setCreatedAt(new  \DateTimeImmutable());
         $this->em->persist($admin);
         $this->em->flush();
