@@ -2,24 +2,32 @@
 
 namespace App\Form;
 
-use App\Entity\User;
 use App\Entity\Avatar;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AvatarForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('pseudo',TextType::class,['attr'=>['class'=>'input-gray','placeholder'=>'Votre pseudo','required'=>true],
+            'label'=>'Pseudonyme',
+            'label_attr'=>['class'=>'mb-3 block text-sm text-cyan-600 font-medium ']
+            ])
+
             ->add('image',FileType::class,['label'=>false,'multiple'=>false,'mapped'=>false])
-            ->add('submit',SubmitType::class)
+
+            ->add('submit',SubmitType::class,['attr'=>['class'=>'btn-confirmation'],
+            'label'=>'Valider'
+            ])
+
             ->addEventListener(FormEvents::POST_SUBMIT, $this->addDate(...))
             
         ;

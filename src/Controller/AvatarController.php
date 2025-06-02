@@ -18,10 +18,10 @@ final class AvatarController extends AbstractController
     #[Route('/profil/add', name: 'app_avatar', methods:['POST','GET'])]
     public function add(Request $request,ValidatorInterface $validator,PhotoService $photoService,EntityManagerInterface $em): Response
     {
-        if($this->denyAccessUnlessGranted('ROLE_USER')){
-            $this->addFlash('alert-danger','Vous devez être connecté pour accéder à cette page');
-            return $this->redirectToRoute('app_main');
-        }
+       // if($this->denyAccessUnlessGranted('ROLE_USER')){
+       //     $this->addFlash('alert-danger','Vous devez être connecté pour accéder à cette page');
+       //     return $this->redirectToRoute('app_main');
+       // }
         // formulaire
         $avatar = new Avatar();
         $avatarForm = $this->createForm(AvatarForm::class,$avatar);
