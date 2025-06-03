@@ -22,7 +22,7 @@ final class AvatarController extends AbstractController
        //     $this->addFlash('alert-danger','Vous devez être connecté pour accéder à cette page');
        //     return $this->redirectToRoute('app_main');
        // }
-        // formulaire
+        // form
         $avatar = new Avatar();
         $avatarForm = $this->createForm(AvatarForm::class,$avatar);
         $avatarForm->handleRequest($request);

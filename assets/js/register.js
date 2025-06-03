@@ -1,5 +1,7 @@
-import { redField, greenField, initialEmail, alertBorder, clearBorder, clearField, 
-    controlEmail, controlTerms, info, successBorder,checkFields,agreeTermsControl } from './dom.js';
+import {
+    redField, greenField, initialEmail, alertBorder, clearBorder, clearField,
+    controlEmail, controlTerms, info, successBorder, checkFields, agreeTermsControl
+} from './dom.js';
 window.onload = () => {
     const registration_form = document.body.querySelector('#registration_form');
     if (registration_form) {
@@ -28,7 +30,7 @@ window.onload = () => {
             clearBorder(this);
             initialEmail(allowEmail);
             password_criteria.style.display = "none";
-            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
+            checkFields(registration_form_email, registration_form_plainPassword, registration_form_agreeTerms, registration_form_submit);
         });
 
         registration_form_email.addEventListener('input', function () {
@@ -40,10 +42,10 @@ window.onload = () => {
                 let text = 'Adresse email OK!';
                 greenField(allowEmail, text);
             }
-            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
+            checkFields(registration_form_email, registration_form_plainPassword, registration_form_agreeTerms, registration_form_submit);
         });
 
-        registration_form_email.addEventListener('blur',function(){
+        registration_form_email.addEventListener('blur', function () {
             if (controlEmail(this) === (false)) {
                 let text = 'Adresse email incorrecte !'
                 redField(allowEmail, text);
@@ -51,7 +53,7 @@ window.onload = () => {
                 let text = 'Adresse email OK!';
                 greenField(allowEmail, text);
             }
-            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
+            checkFields(registration_form_email, registration_form_plainPassword, registration_form_agreeTerms, registration_form_submit);
         });
 
         registration_form_plainPassword.addEventListener('focus', function ({ currentTarget }) {
@@ -64,9 +66,9 @@ window.onload = () => {
             }
             information = "indiquez votre mot de passe";
             info(message, information);
-           
+
             password_criteria.style.display = "block";
-            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
+            checkFields(registration_form_email, registration_form_plainPassword, registration_form_agreeTerms, registration_form_submit);
         });
 
         registration_form_plainPassword.addEventListener('input', function ({ currentTarget }) {
@@ -77,10 +79,10 @@ window.onload = () => {
             password_number_criteria.className = `password-criteria-${/[0-9]/.test(password)}`;
             password_lowercase_criteria.className = `password-criteria-${/[a-zà-ú]/.test(password)}`;
             password_length_criteria.textContent = `12 caractères au total (${password.length}) `;
-            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
+            checkFields(registration_form_email, registration_form_plainPassword, registration_form_agreeTerms, registration_form_submit);
         });
 
-        registration_form_plainPassword.addEventListener('blur', function ({currentTarget}) {
+        registration_form_plainPassword.addEventListener('blur', function ({ currentTarget }) {
             let password = currentTarget.value;
             if (password.length == 12 && password_length_criteria.classList.contains('password-criteria-true') &&
                 password_special_character_criteria.classList.contains('password-criteria-true') &&
@@ -96,56 +98,66 @@ window.onload = () => {
                 alertBorder(this);
             }
             password_criteria.style.display = "none";
-            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
+            checkFields(registration_form_email, registration_form_plainPassword, registration_form_agreeTerms, registration_form_submit);
 
         });
 
-        registration_form_agreeTerms.addEventListener('focus',function(){
+        registration_form_agreeTerms.addEventListener('focus', function () {
             information = "Accepter les conditions générales";
             info(message, information);
-            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
+            checkFields(registration_form_email, registration_form_plainPassword, registration_form_agreeTerms, registration_form_submit);
         });
 
-        registration_form_agreeTerms.addEventListener('input',function(){
-            controlTerms(this,information);
-            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
-   
+        registration_form_agreeTerms.addEventListener('input', function () {
+            controlTerms(this, information);
+            checkFields(registration_form_email, registration_form_plainPassword, registration_form_agreeTerms, registration_form_submit);
+
         });
-        registration_form_agreeTerms.addEventListener('blur',function(){
-            controlTerms(this,information);
-            checkFields(registration_form_email,registration_form_plainPassword,registration_form_agreeTerms,registration_form_submit);
+        registration_form_agreeTerms.addEventListener('blur', function () {
+            controlTerms(this, information);
+            checkFields(registration_form_email, registration_form_plainPassword, registration_form_agreeTerms, registration_form_submit);
 
         });
 
-        registration_form_submit.addEventListener('click',function(e){  
-            let inputs =registration_form.getElementsByTagName('input');
-            let cpt = 0; let nbborder =0; let fieldsuccess =[];
-            for(var i =0; i< inputs.length; i++){
-                if(inputs[i].type=='email' || inputs[i].type=='password' || inputs[i].type=='checkbox'){
-                    fieldsuccess[i]= inputs[i];
-                    if(fieldsuccess[i].type=="email" && fieldsuccess[i].value=='' || fieldsuccess[i].type=='password' && fieldsuccess[i].value ==''){
-                        alertBorder(fieldsuccess[i]);
-                        cpt++;
-                    }else{
-                        nbborder++;
-                    }
-                    if(fieldsuccess[i].type=="checkbox" && !fieldsuccess[i].checked){
-                        fieldsuccess[i].classList.remove('border', 'border-gray-50');
-                        fieldsuccess[i].style.outline='2px solid #fca5a5';
-                        cpt++;
-                    }
-                    if(fieldsuccess[i].classList.contains('border-green-600') ){
-                        nbborder++;
-                    }
+        registration_form_submit.addEventListener('click', function (e) {
+            let inputs = registration_form.getElementsByTagName('input');
+            let compteur = 0; let nbBordure = 0; let champsucess = [];
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].type == "email" || inputs[i].type == "password" || inputs[i].type == 'checkbox') {
+                    champsucess[i] = inputs[i];
                 }
             }
-            if(!cpt == 0 || !fieldsuccess.length == nbborder){
+            for (let i = 0; i < champsucess.length; i++) {
+                if (champsucess[i].type == 'email' && champsucess[i].value == "" || champsucess[i].type=='email' && champsucess[i].classList.contains('border-red-300')) {
+                    alertBorder(champsucess[i]);
+                    compteur++;
+                }else{
+                    nbBordure++;
+                }
+                if (champsucess[i].type == 'password' && champsucess[i].value == "" || champsucess[i].type=='password' && champsucess[i].classList.contains('border-red-300')) {
+                    alertBorder(champsucess[i]);
+                    compteur++;
+                }else{
+                    nbBordure++;
+                }
+                if(champsucess[i].type=="checkbox" && !champsucess[i].checked){
+                    champsucess[i].classList.remove('border','border-gray-50');
+                    champsucess[i].style.outline='1px solid #FCA5A5';
+                    compteur++;
+                }else{
+                    nbBordure++;
+                }
+
+     
+
+            }
+            if (!registration_form_agreeTerms.checked || !compteur == 0 || !champsucess.length == nbBordure) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 return false;
             }
+
         });
 
     }
-    
 }
