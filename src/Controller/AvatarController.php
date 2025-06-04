@@ -16,12 +16,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class AvatarController extends AbstractController
 {
+
+    #[Route('/profil/show/{id}',name:'app_avatar_profil',methods:['GET'])]
+    public function showProfil(User $user): Response
+    {
+        if ($this->denyAccessUnlessGranted('ROLE_USER')) {
+            $this->addFlash('alert-success', 'Vous devez être connecté pour accéder à cette page');
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->render('avatar/index.html.twig',['user'=>$user]);
+    }
+
     #[Route('/profil/add', name: 'app_avatar', methods: ['POST', 'GET'])]
     public function add(Request $request, ValidatorInterface $validator, PhotoService $photoService, EntityManagerInterface $em): Response
     {
         if ($this->denyAccessUnlessGranted('ROLE_USER')) {
             $this->addFlash('alert-danger', 'Vous devez être connecté pour accéder à cette page');
-            return $this->redirectToRoute('app_main');
+            return $this->redirectToRoute('login');
         }
         // form
         $avatar = new Avatar();
@@ -39,7 +50,6 @@ final class AvatarController extends AbstractController
                 $avatar->setName($fichier);
                 $user = $em->getRepository(User::class)->find($this->getUser());
                 $avatar->setSubscriber($user);
-                $avatar->setPseudo('Adapa');
                 $user->setIsFull(true);
             }
             try{
@@ -47,7 +57,7 @@ final class AvatarController extends AbstractController
             $em->persist($user);
             $em->flush();
             $this->addFlash('alert-success', 'Votre avatar a été ajouté !');
-            return $this->redirectToRoute('app_main'); // $this->redirecToRoute('app_avatar_profil',['id'=>$avatar->getId()])
+            return $this->redirectToRoute('app_avatar_profil',['id'=>$user->getId()]); // $this->redirecToRoute('app_avatar_profil',['id'=>$avatar->getId()])
             } catch(EntityNotFoundException $e){
                 return $this->redirectToRoute('app_error',['exception'=>$e]);
             }
