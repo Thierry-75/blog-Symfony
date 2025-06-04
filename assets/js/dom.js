@@ -208,7 +208,6 @@ const validateImage = function (input) {
 
 const checkAvatarForm= function(champ1, champ2, bouton){
     if (champ1.classList.contains('border-green-300') && champ2.classList.contains('border-green-300')) {
-        message.innerHTML = "";
         bouton.classList.remove('btn-confirmation');
         bouton.classList.add('btn-validation');
         bouton.textContent = "Validez votre saisie";

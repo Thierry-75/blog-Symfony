@@ -10,7 +10,7 @@ window.onload = () => {
         info(message, information);
 
         avatar_form_pseudo.addEventListener('focus', function () {
-            information = "Max 30  exemple :  Belphegor#175  ";
+            information = "Max 30 lettres sans accent !  ex:  Belphegor#175  ";
             info(message, information);
         });
 
@@ -25,12 +25,12 @@ window.onload = () => {
         });
 
         avatar_form_image.addEventListener('focus', function () {
-            information = "Télécharger votre avatar";
+            information = "Image au format png max 1Mo";
             info(message, information);
 
         });
 
-        avatar_form_image.addEventListener('input', function () {
+        avatar_form_image.addEventListener('change', function () {
             if (validateImage(this) == true) {
                 successBorder(this);
             }
@@ -43,11 +43,18 @@ window.onload = () => {
         avatar_form_image.addEventListener('blur', function () {
             if (validateImage(this) == true) {
                 successBorder(this);
+                information ="";
+                info(message,information);
             }
             else {
                 alertBorder(this);
             }
             checkAvatarForm(avatar_form_pseudo, avatar_form_image, avatar_form_submit);
+        });
+
+        avatar_form_submit.addEventListener('focus',function(){
+            information ="";
+            info(message,information);
         });
 
         avatar_form_submit.addEventListener('click', function (event) {

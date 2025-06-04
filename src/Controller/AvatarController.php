@@ -15,42 +15,41 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class AvatarController extends AbstractController
 {
-    #[Route('/profil/add', name: 'app_avatar', methods:['POST','GET'])]
-    public function add(Request $request,ValidatorInterface $validator,PhotoService $photoService,EntityManagerInterface $em): Response
+    #[Route('/profil/add', name: 'app_avatar', methods: ['POST', 'GET'])]
+    public function add(Request $request, ValidatorInterface $validator, PhotoService $photoService, EntityManagerInterface $em): Response
     {
-       // if($this->denyAccessUnlessGranted('ROLE_USER')){
-       //     $this->addFlash('alert-danger','Vous devez être connecté pour accéder à cette page');
-       //     return $this->redirectToRoute('app_main');
-       // }
+        if ($this->denyAccessUnlessGranted('ROLE_USER')) {
+            $this->addFlash('alert-danger', 'Vous devez être connecté pour accéder à cette page');
+            return $this->redirectToRoute('app_main');
+        }
         // form
         $avatar = new Avatar();
-        $avatarForm = $this->createForm(AvatarForm::class,$avatar);
+        $avatarForm = $this->createForm(AvatarForm::class, $avatar);
         $avatarForm->handleRequest($request);
-        if($request->isMethod('POST')){
+        if ($request->isMethod('POST')) {
             $errors = $validator->validate($request);
-            if(count($errors)>0){
-                return $this->render('avatar/add.html.twig',['avatarForm'=>$avatarForm,'errors'=>$errors]);
+            if (count($errors) > 0) {
+                return $this->render('avatar/add.html.twig', ['avatarForm' => $avatarForm, 'errors' => $errors]);
             }
-            if($avatarForm->isSubmitted()  && $avatarForm->isValid()){
+            if ($avatarForm->isSubmitted()  && $avatarForm->isValid()) {
                 $photo = $avatarForm->get('image')->getData();
                 $folder = 'avatars';
-                $fichier = $photoService->add($photo,$folder,32,32);
+                $fichier = $photoService->add($photo, $folder, 32, 32);
                 $avatar->setName($fichier);
                 $user = $em->getRepository(User::class)->find($this->getUser());
                 $avatar->setSubscriber($user);
                 $avatar->setPseudo('Adapa');
                 $user->setIsFull(true);
-                
             }
             $em->persist($avatar);
             $em->persist($user);
             $em->flush();
-            $this->addFlash('alert-success','Votre avatar a été ajouté !');
+            $this->addFlash('alert-success', 'Votre avatar a été ajouté !');
             return $this->redirectToRoute('app_main');  // $this->redirecToRoute('app_avatar_profil',['id'=>$avatar->getId()])
 
         }
         return $this->render('avatar/add.html.twig', [
-            'avatarForm'=>$avatarForm
+            'avatarForm' => $avatarForm
         ]);
     }
 }
