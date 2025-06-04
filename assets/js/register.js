@@ -131,25 +131,26 @@ window.onload = () => {
                 if (champsucess[i].type == 'email' && champsucess[i].value == "" || champsucess[i].type=='email' && champsucess[i].classList.contains('border-red-300')) {
                     alertBorder(champsucess[i]);
                     compteur++;
-                }else{
+                }else if(champsucess[i].type=='email' && !champsucess[i].value=="" && champsucess[i].classList.contains('border-green-300')){
+                    successBorder(champsucess[i]);
                     nbBordure++;
                 }
                 if (champsucess[i].type == 'password' && champsucess[i].value == "" || champsucess[i].type=='password' && champsucess[i].classList.contains('border-red-300')) {
                     alertBorder(champsucess[i]);
                     compteur++;
-                }else{
+                }else if(champsucess[i].type=='email' && !champsucess[i].value=="" && champsucess[i].classList.contains('border-green-300')){
+                    successBorder(champsucess[i]);
                     nbBordure++;
                 }
                 if(champsucess[i].type=="checkbox" && !champsucess[i].checked){
                     champsucess[i].classList.remove('border','border-gray-50');
                     champsucess[i].style.outline='1px solid #FCA5A5';
                     compteur++;
-                }else{
+                }else if(champsucess[i].type=="checkbox" && champsucess[i].checked){
+                    champsucess[i].classList.remove('border', 'border-gray-50');
+                    champsucess[i].style.outline = '2px solid lightGreen';
                     nbBordure++;
                 }
-
-     
-
             }
             if (!registration_form_agreeTerms.checked || !compteur == 0 || !champsucess.length == nbBordure) {
                 e.preventDefault();

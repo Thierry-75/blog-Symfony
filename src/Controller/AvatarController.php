@@ -7,6 +7,7 @@ use App\Entity\Avatar;
 use App\Form\AvatarForm;
 use App\Service\PhotoService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -41,11 +42,15 @@ final class AvatarController extends AbstractController
                 $avatar->setPseudo('Adapa');
                 $user->setIsFull(true);
             }
+            try{
             $em->persist($avatar);
             $em->persist($user);
             $em->flush();
             $this->addFlash('alert-success', 'Votre avatar a été ajouté !');
-            return $this->redirectToRoute('app_main');  // $this->redirecToRoute('app_avatar_profil',['id'=>$avatar->getId()])
+            return $this->redirectToRoute('app_main'); // $this->redirecToRoute('app_avatar_profil',['id'=>$avatar->getId()])
+            } catch(EntityNotFoundException $e){
+                return $this->redirectToRoute('app_error',['exception'=>$e]);
+            }
 
         }
         return $this->render('avatar/add.html.twig', [

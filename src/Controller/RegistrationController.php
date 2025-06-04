@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationForm;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,23 +40,27 @@ class RegistrationController extends AbstractController
                 // encode the plain password
                 $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword))
                     ->setRoles(['ROLE_USER']);
-                $entityManager->persist($user);
-                $entityManager->flush();
+                try {
+                    $entityManager->persist($user);
+                    $entityManager->flush();
 
-                // generate a signed url and email it to the user
-                $this->emailVerifier->sendEmailConfirmation(
-                    'app_verify_email',
-                    $user,
-                    (new TemplatedEmail())
-                        ->from(new Address('webmaster@my-domain.org', 'webmaster'))
-                        ->to((string) $user->getEmail())
-                        ->subject('Please Confirm your Email')
-                        ->htmlTemplate('registration/confirmation_email.html.twig')
-                );
+                    // generate a signed url and email it to the user
+                    $this->emailVerifier->sendEmailConfirmation(
+                        'app_verify_email',
+                        $user,
+                        (new TemplatedEmail())
+                            ->from(new Address('webmaster@my-domain.org', 'webmaster'))
+                            ->to((string) $user->getEmail())
+                            ->subject('Please Confirm your Email')
+                            ->htmlTemplate('registration/confirmation_email.html.twig')
+                    );
 
-                // do anything else you need here, like send an email
-                $this->addFlash("alert-success", "Veuillez consulter votre boite mail !");
-                return $this->redirectToRoute('app_main');
+                    // do anything else you need here, like send an email
+                    $this->addFlash("alert-success", "Veuillez consulter votre boite mail !");
+                    return $this->redirectToRoute('app_main');
+                } catch (EntityNotFoundException $e) {
+                    return $this->redirectToRoute('app_error', ['exception' => $e]);
+                }
             }
         }
 
