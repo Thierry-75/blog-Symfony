@@ -130,20 +130,25 @@ window.onload = () => {
             for(let i =0; i < inputs.length; i++){
                 if(inputs[i].type=="password"){
                     fieldSuccess[i]=inputs[i];
-                    if(fieldSuccess[i].value==''){
+                }
+                for(let i =0; i < fieldSuccess.length; i++ ){
+                    if(fieldSuccess[i].value =='' || fieldSuccess[i].classList.contains('border-red-300'))
+                    {
                         alertBorder(fieldSuccess[i]);
                         cpt++;
-                    }else{
-                        if(num ==0){
-                            compare1=fieldSuccess[num];
-                        }
-                        else{
-                            compare2=fieldSuccess[num];
-                        }
+                    }
+                    else if(!fieldSuccess[i].value =='' && fieldSuccess[i].classList.contains('border-green-300'))
+                    {
+                        successBorder(fieldSuccess[i]);
                         nbBorder++;
+                        if(num == 0){
+                            compare1=fieldSuccess[num];
+                        }else{
+                            compare2=fieldSuccess[num]
+                        }
                         num++;
                     }
-                }
+                }                
             }
             if(!cpt==0 || !fieldSuccess.length == nbBorder || compare1.value !== compare2.value ){
                 e.preventDefault();
