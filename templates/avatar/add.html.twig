@@ -24,7 +24,9 @@
                 novalidate: "novalidate",
                 class: 'max-w-sm mx-auto',
                 id: 'avatar_form',
+			
             }})}}
+				
 			<div class="ml-1">
 				{{ form_label(avatarForm.pseudo)}}
 				{{ form_widget(avatarForm.pseudo)}}
@@ -44,7 +46,7 @@
 
 			<div class="mb-6 mx-2 pt-4">
 				<p class="preview">
-					<img id="imageAvatar" src=""  alt="">
+					<img id="imageAvatar" src="" alt="">
 				</p>
 
 				<p class="text-center" id="error"></p>
@@ -56,12 +58,11 @@
 					{{ form_errors(avatarForm.image) }}
 				</div>
 
-
-				<div>
-					{{ form_widget(avatarForm.submit) }}
+				<div class="!mt-12">
+					<button type="submit" id="avatar_form_submit" class="btn-confirmation mb-10">
+						Saisir
+					</button>
 				</div>
-
-
 				{{ form_end(avatarForm)}}
 
 			</div>

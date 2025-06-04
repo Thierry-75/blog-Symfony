@@ -24,10 +24,6 @@ class AvatarForm extends AbstractType
 
             ->add('image',FileType::class,['label'=>false,'multiple'=>false,'mapped'=>false])
 
-            ->add('submit',SubmitType::class,['attr'=>['class'=>'btn-confirmation mb-10'],
-            'label'=>'Saisir'
-            ])
-
             ->addEventListener(FormEvents::POST_SUBMIT, $this->addDate(...))
             
         ;
