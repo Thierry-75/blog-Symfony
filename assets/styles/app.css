@@ -10,6 +10,9 @@
         .btn-confirmation {
           @apply w-full py-3 px-4  shadow-sm shadow-cyan-900 bg-cyan-600 hover:bg-cyan-700 focus:outline-none tracking-wider text-sm text-white rounded-md;
         }
+        .btn-retour {
+          @apply w-full py-3 px-4  shadow-sm shadow-gray-400 bg-amber-400 hover:bg-amber-500 focus:outline-none tracking-wider text-sm text-black rounded-md;
+        }
         .btn-amber {
           @apply ml-4 px-4 py-2 rounded-md text-sm font-medium min-w-max overflow-hidden shadow-sm shadow-gray-400 relative bg-amber-400 text-stone-950 hover:bg-opacity-90;
         }

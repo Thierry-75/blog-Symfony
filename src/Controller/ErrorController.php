@@ -9,8 +9,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class ErrorController extends AbstractController
 {
     #[Route('/error', name: 'app_error')]
-    public function index(): Response
+    public function index($e): Response
     {
-        return $this->render('/error/index.html.twig');
+        return $this->render('bundles/TwigBundle/Exception/error'. $e . 'html.twig',['exception'=>$e]);
     }
 }

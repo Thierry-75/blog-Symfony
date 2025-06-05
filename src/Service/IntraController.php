@@ -6,6 +6,7 @@ namespace App\Service;
 class IntraController
 {
     
+
     static function confirmEmail($user)
     {
         if(!$user == null){
@@ -14,7 +15,6 @@ class IntraController
             }
         }
     }
-
     static function completeCoordonnees($user)
     {
         if(!$user == null){

@@ -1,6 +1,6 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
-    secret: '%env(APP_SECRET)%'
+    secret: "%env(APP_SECRET)%"
     annotations: false
     http_method_override: false
     handle_all_throwables: true
@@ -22,3 +22,4 @@ when@test:
         test: true
         session:
             storage_factory_id: session.storage.factory.mock_file
+
