@@ -118,3 +118,10 @@
   text-shadow: 0 0 0 red;
   content: '\02716';
 }
+
+#loginEye {
+  cursor: pointer;
+}
+#registerEye{
+  cursor: pointer;
+}

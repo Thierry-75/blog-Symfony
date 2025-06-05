@@ -218,8 +218,18 @@ const checkAvatarForm= function(champ1, champ2, bouton){
     }
 }
 
+const eyePassword = function(input,btn){
+    if(input.type ==='password'){
+        input.type ='text';
+        btn.classList.add('active');
+    }else{
+        input.type="password";
+        btn.classList.remove('active');
+    }
+}
+
 
 export {
-    clearBorder, alertBorder, successBorder, clearField, controlEmail, info, greenField, controlPassword, checkPasswords, controlPseudo,
+    clearBorder, alertBorder, successBorder, clearField, controlEmail, info, greenField, controlPassword, checkPasswords, controlPseudo,eyePassword,
     redField, initialEmail, controlTerms, checkFields, controlRemember, clearRemember, agreeTermsControl, yellowfield, checkEmail,checkAvatarForm,validateImage
 }; // a list of exported variables

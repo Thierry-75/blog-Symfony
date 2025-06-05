@@ -1,4 +1,4 @@
-import { alertBorder, clearField, controlEmail, controlPassword, controlRemember, clearRemember, checkFields, successBorder } from './dom.js';
+import { alertBorder, clearField, controlEmail, controlPassword, controlRemember, clearRemember, checkFields, successBorder,eyePassword } from './dom.js';
 window.onload = () => {
     /*----form_login----*/
     const form_login = document.body.querySelector('#form_login');
@@ -17,6 +17,7 @@ window.onload = () => {
             checkFields(inputEmail, inputPassword, inputRemember, inputSubmit);
         });
         const inputPassword = form_login.querySelector('#inputPassword');
+        const showPassword = form_login.querySelector('#loginEye');
         inputPassword.addEventListener('focus', function () {
             clearField(this);
             checkFields(inputEmail, inputPassword, inputRemember, inputSubmit);
@@ -29,6 +30,11 @@ window.onload = () => {
             controlPassword(this);
             checkFields(inputEmail, inputPassword, inputRemember, inputSubmit);
         });
+
+        showPassword.addEventListener('click',function(){
+            eyePassword(inputPassword,showPassword);
+        });
+
         const inputRemember = form_login.querySelector('#remember_me');
         inputRemember.addEventListener('focus', function () {
             clearRemember(this);

@@ -1,6 +1,6 @@
 import {
     redField, greenField, initialEmail, alertBorder, clearBorder, clearField,
-    controlEmail, controlTerms, info, successBorder, checkFields, agreeTermsControl
+    controlEmail, controlTerms, info, successBorder, checkFields, eyePassword
 } from './dom.js';
 window.onload = () => {
     const registration_form = document.body.querySelector('#registration_form');
@@ -20,6 +20,7 @@ window.onload = () => {
         const registration_form_plainPassword = registration_form.querySelector('#registration_form_plainPassword');
         const registration_form_agreeTerms = registration_form.querySelector('#registration_form_agreeTerms');
         const registration_form_submit = registration_form.querySelector('#registration_form_submit');
+        const registerEye = registration_form.querySelector('#registerEye');
         let information = "Suivez les instructions...";
         info(message, information);
 
@@ -100,6 +101,10 @@ window.onload = () => {
             password_criteria.style.display = "none";
             checkFields(registration_form_email, registration_form_plainPassword, registration_form_agreeTerms, registration_form_submit);
 
+        });
+
+        registerEye.addEventListener('click',function(){
+            eyePassword(registration_form_plainPassword,registerEye);
         });
 
         registration_form_agreeTerms.addEventListener('focus', function () {
