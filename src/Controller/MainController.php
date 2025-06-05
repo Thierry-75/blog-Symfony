@@ -25,7 +25,7 @@ final class MainController extends AbstractController
                 $this->getUser(),
                 (new TemplatedEmail())
                     ->from(new Address('webmaster@my-domain.org', 'webmaster'))
-                    ->to((string) $this->getUser()->getEmail())
+                    ->to((string) $this->getUser()['email'])
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
@@ -38,8 +38,6 @@ final class MainController extends AbstractController
             $this->addFlash('alert-warning', 'Vous devez indiquer votre avatar !');
             return $this->redirectToRoute('app_avatar');
         }
-
-
         return $this->render('main/index.html.twig', []);
     }
 }
