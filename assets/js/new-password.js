@@ -1,5 +1,5 @@
 import { redField, greenField, alertBorder, clearBorder, clearField, info
-    ,successBorder,checkPasswords, initialEmail } from "./dom.js";
+    ,successBorder,checkPasswords, initialEmail,eyePassword } from "./dom.js";
 
 window.onload = () => {
     const change_password_form = document.body.querySelector('#reset_password_form');
@@ -17,6 +17,8 @@ window.onload = () => {
         const all_password_criteria = document.body.querySelectorAll("li[data-password-criteria]");
         const password_plainPassword_first = change_password_form.querySelector('#change_password_form_plainPassword_first'); 
         const password_plainPassword_second = change_password_form.querySelector('#change_password_form_plainPassword_second'); 
+        const resetEyeOne = change_password_form.querySelector('#resetEyeOne');
+        const resetEyeTwo = change_password_form.querySelector('#resetEyeTwo');
         const registration_form_submit = change_password_form.querySelector('#change_password_form_submit'); //change_password_form_submit
         let information = "Suivez les instructions...";
         info(message, information);
@@ -68,6 +70,10 @@ window.onload = () => {
         checkPasswords(password_plainPassword_first,password_plainPassword_second,registration_form_submit);
         password_criteria.style.display = "none";
         });
+
+        resetEyeOne.addEventListener('click',function(){
+            eyePassword(password_plainPassword_first,resetEyeOne);
+        });
         password_plainPassword_second.addEventListener('focus', function ({ currentTarget }){
             this.value = "";
             clearBorder(this);
@@ -118,6 +124,10 @@ window.onload = () => {
         checkPasswords(password_plainPassword_first,password_plainPassword_second,registration_form_submit);
         password_criteria.style.display = "none";
 
+        });
+
+        resetEyeTwo.addEventListener('click',function(){
+            eyePassword(password_plainPassword_second,resetEyeTwo);
         });
 
         registration_form_submit.addEventListener('focus',function(){

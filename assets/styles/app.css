@@ -125,3 +125,14 @@
 #registerEye{
   cursor: pointer;
 }
+#resetEyeOne{
+  position:absolute;
+  cursor: pointer;
+  top: 44px;
+}
+
+#resetEyeTwo{
+  position:absolute;
+  cursor: pointer;
+  top: 129px;
+}
