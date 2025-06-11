@@ -15,14 +15,14 @@ final class MainController extends AbstractController
     public function __construct(private EmailVerifier $emailVerifier) {}
 
     #[Route('/', name: 'app_main')]
-    public function index(IntraController $intra): Response
+    public function index(IntraController $intraController): Response
     {
         // force to validate email
-        if ($intra->confirmEmail($this->getUser())) {
+        if ($intraController->confirmEmail($this->getUser())) {
             $this->validateEmail();
         }
         // force to upload avatar
-        if (!$intra->confirmEmail($this->getUser()) && $intra->completeCoordonnees($this->getUser())) {
+        if (!$intraController->confirmEmail($this->getUser()) && $intraController->completeCoordonnees($this->getUser())) {
             $this->addFlash('alert-warning', 'Vous devez indiquer votre avatar !');
             return $this->redirectToRoute('app_avatar');
         }
@@ -30,7 +30,7 @@ final class MainController extends AbstractController
         return $this->render('main/index.html.twig', []);
     }
 
-    public function validateEmail(): Response
+    private function validateEmail(): Response
     {
         $this->emailVerifier->sendEmailConfirmation(
             'app_verify_email',

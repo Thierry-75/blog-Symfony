@@ -39,15 +39,16 @@ final class AvatarController extends AbstractController
                 return $this->render('avatar/add.html.twig', ['avatarForm' => $avatarForm, 'errors' => $errors]);
             }
             if ($avatarForm->isSubmitted()  && $avatarForm->isValid()) {
+                try {
                 $photo = $avatarForm->get('image')->getData();
                 $folder = 'avatars';
-                $fichier = $photoService->add($photo, $folder, 32, 32);
+                $fichier = $photoService->add($photo, $folder, 64, 64);
                 $avatar->setName($fichier);
                 $user = $em->getRepository(User::class)->find($this->getUser());
                 $avatar->setSubscriber($user);
                 $user->setIsFull(true);
-            }
-            try {
+            
+     
                 $em->persist($avatar);
                 $em->persist($user);
                 $em->flush();
@@ -56,6 +57,7 @@ final class AvatarController extends AbstractController
             } catch (EntityNotFoundException $e) {
                 return $this->redirectToRoute('app_error', ['exception' => $e]);
             }
+        }
         }
         return $this->render('avatar/add.html.twig', [
             'avatarForm' => $avatarForm
