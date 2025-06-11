@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Avatar;
 use App\Form\AvatarForm;
+use App\Form\UpdateAvatarForm;
 use App\Service\PhotoService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
@@ -21,12 +22,11 @@ final class AvatarController extends AbstractController
     public function showProfil(User $user): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
         return $this->render('avatar/index.html.twig', ['user' => $user]);
     }
 
     #[Route('/profil/add', name: 'app_avatar', methods: ['POST', 'GET'])]
-    public function add(Request $request, ValidatorInterface $validator, PhotoService $photoService, EntityManagerInterface $em): Response
+    public function addAvatar(Request $request, ValidatorInterface $validator, PhotoService $photoService, EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         
@@ -41,19 +41,20 @@ final class AvatarController extends AbstractController
             if ($avatarForm->isSubmitted()  && $avatarForm->isValid()) {
                 try {
                 $photo = $avatarForm->get('image')->getData();
-                $folder = 'avatars';
-                $fichier = $photoService->add($photo, $folder, 64, 64);
-                $avatar->setName($fichier);
+                if(($photo->getClientOriginalExtension()) =='png'){
                 $user = $em->getRepository(User::class)->find($this->getUser());
+                $folder = 'avatars';
+                $fichier = $photoService->add($photo,$this->getUser(), $folder, 128, 128);
+                $avatar->setName($fichier);
+            
                 $avatar->setSubscriber($user);
                 $user->setIsFull(true);
-            
-     
                 $em->persist($avatar);
                 $em->persist($user);
                 $em->flush();
-                $this->addFlash('alert-success', 'Votre avatar a été ajouté !');
+                $this->addFlash('alert-success', 'Votre profil a été ajouté !');
                 return $this->redirectToRoute('app_avatar_profil', ['id' => $user->getId()]); // $this->redirecToRoute('app_avatar_profil',['id'=>$avatar->getId()])
+                }
             } catch (EntityNotFoundException $e) {
                 return $this->redirectToRoute('app_error', ['exception' => $e]);
             }
@@ -62,5 +63,39 @@ final class AvatarController extends AbstractController
         return $this->render('avatar/add.html.twig', [
             'avatarForm' => $avatarForm
         ]);
+    }
+
+    #[Route('/profil/update/{id}', name: 'app_avatar_update', methods: ['GET','POST'])]
+    public function updateAvatar(User $user,Avatar $avatar,Request $request, ValidatorInterface $validator,PhotoService $photoService,EntityManagerInterface $em):Response
+    {  
+        $form_update= $this->createForm(UpdateAvatarForm::class,$avatar);
+        $form_update->handleRequest($request);
+        if($request->isMethod('POST')){
+            $errors = $validator->validate($request);
+            if(count($errors)>0){
+                return $this->render('avatar/update.html.twig',['Form_update'=>$form_update,'errors'=>$errors]);
+            }
+            if($form_update->isSubmitted() && $form_update->isValid()){
+                try{
+                    $photo= $form_update->get('image')->getData();
+                    if($photo->getClientOriginalExtension()=='png'){
+                        $folder ='avatars'; // creer une constante
+                        $photoService->delete($avatar->getName(),$folder,128,128);
+                        $fichier= $photoService->add($photo,$user,$folder,128,128);
+                        $avatar->setName($fichier);
+                        $avatar->setSubscriber($user);
+                        $user->setIsFull(true);
+                        $em->persist($avatar);
+                        $em->flush();
+                        $this->addFlash('alert-success','votre profil a été modifié !');
+                        return $this->redirectToRoute('app_avatar_profil',['id'=>$user->getId()]);
+
+                    }
+                }catch(EntityNotFoundException $e){
+                    return $this->redirectToRoute('app_error',['exception'=>$e]);
+                }
+            }
+        }
+        return $this->render('avatar/update.html.twig',['Form_update'=>$form_update,'user'=>$user]);
     }
 }

@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Security\EmailVerifier;
 use App\Service\IntraController;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Address;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 final class MainController extends AbstractController
 {
@@ -19,7 +20,9 @@ final class MainController extends AbstractController
     {
         // force to validate email
         if ($intraController->confirmEmail($this->getUser())) {
-            $this->validateEmail();
+            if(is_object($this->getUser())){
+                $this->validateEmail();
+            }
         }
         // force to upload avatar
         if (!$intraController->confirmEmail($this->getUser()) && $intraController->completeCoordonnees($this->getUser())) {
@@ -37,7 +40,7 @@ final class MainController extends AbstractController
             $this->getUser(),
             (new TemplatedEmail())
                 ->from(new Address('webmaster@my-domain.org', 'webmaster'))
-                ->to((string) $this->getUser()->Email)
+                ->to((string) $this->getUser()->getEmail())
                 ->subject('Please Confirm your Email')
                 ->htmlTemplate('registration/confirmation_email.html.twig')
         );

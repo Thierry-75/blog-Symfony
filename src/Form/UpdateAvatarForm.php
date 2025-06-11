@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Sequentially;
 
-class AvatarForm extends AbstractType
+class UpdateAvatarForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

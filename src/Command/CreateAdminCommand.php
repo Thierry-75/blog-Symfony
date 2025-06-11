@@ -26,7 +26,7 @@ class CreateAdminCommand extends Command
     protected function configure(): void
     {
         $this->addArgument('email', InputArgument::OPTIONAL,'Email')
-             ->addArgument('password', InputArgument::OPTIONAL,'Mot de passe');
+            ->addArgument('password', InputArgument::OPTIONAL,'Mot de passe');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int 
@@ -46,9 +46,10 @@ class CreateAdminCommand extends Command
 
         $admin = new User();
         $admin->setEmail($email)
-              ->setPlainPassword($plainPassword)
-              ->setRoles(['ROLE_REDACTOR,ROLE_ADMIN'])
-              ->setCreatedAt(new  \DateTimeImmutable());
+            ->setPlainPassword($plainPassword)
+            ->setRoles(['ROLE_REDACTOR,ROLE_ADMIN'])
+            ->setCreatedAt(new  \DateTimeImmutable())
+            ->setIsVerified(true);
         $this->em->persist($admin);
         $this->em->flush();
         $io->success('Le compte administrateur a été créé !');

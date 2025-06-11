@@ -9,7 +9,7 @@
 			<div class="flex flex-col md:flex-row">
 				<div class="md:w-1/3 text-center mb-8 md:mb-0">
 					<img src="{{ asset('assets/uploads/avatars/') ~ user.avatar.name }}" alt="{{ user.avatar.pseudo }}" class="rounded-full w-36 h-36 mx-auto mb-4 border-4 border-cyan-600 transition-transform duration-300 hover:scale-105 ring ring-gray-300">
-					<button class="mt-4 btn-amber w-48">Changer avatar</button>
+					<a href="{{ path('app_avatar_update',{id:user.avatar.id}) }}" ><button class="mt-4 btn-amber w-48">Changer avatar</button></a>
 				</div>
 				<div class="md:w-2/3 md:pl-8">
 					<h6 class="text-md font-bold text-cyan-600 mb-2">Pseudonyme :</h6>
