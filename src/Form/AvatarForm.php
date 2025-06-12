@@ -22,7 +22,7 @@ class AvatarForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pseudo',TextType::class,['attr'=>['class'=>'input-gray','placeholder'=>'Votre pseudo','required'=>true,'autofocus'=>false, 'accept'=>'image/png'],
+            ->add('pseudo',TextType::class,['attr'=>['class'=>'input-gray','placeholder'=>'Votre pseudo','required'=>true,'autofocus'=>true, 'accept'=>'image/png'],
             'label'=>'Pseudonyme',
             'label_attr'=>['class'=>'mb-3 block text-sm text-cyan-600 font-medium '],
             'constraints'=>[

@@ -48,6 +48,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'subscriber', cascade: ['persist', 'remove'])]
     private ?Avatar $avatar = null;
 
+    
+    private ?string $folder ="avatars";
+
+    public function getFolder(): ?string
+    {
+        return $this->folder;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

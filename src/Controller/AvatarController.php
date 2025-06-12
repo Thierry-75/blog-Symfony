@@ -43,10 +43,8 @@ final class AvatarController extends AbstractController
                 $photo = $avatarForm->get('image')->getData();
                 if(($photo->getClientOriginalExtension()) =='png'){
                 $user = $em->getRepository(User::class)->find($this->getUser());
-                $folder = 'avatars';
-                $fichier = $photoService->add($photo,$user->getEmail(), $folder, 128, 128);
+                $fichier = $photoService->add($photo,$user->getEmail(), $user->getFolder(), 128, 128);
                 $avatar->setName($fichier);
-            
                 $avatar->setSubscriber($user);
                 $user->setIsFull(true);
                 $em->persist($avatar);
@@ -79,9 +77,8 @@ final class AvatarController extends AbstractController
                 try{
                     $photo= $form_update->get('image')->getData();
                     if($photo->getClientOriginalExtension()=='png'){
-                        $folder ='avatars'; // creer une constante
-                        $photoService->delete($avatar->getName(),$folder,128,128);
-                        $fichier= $photoService->add($photo,$user->getEmail(),$folder,128,128);
+                        $photoService->delete($avatar->getName(),$user->getFolder(),128,128);
+                        $fichier= $photoService->add($photo,$user->getEmail(),$user->getFolder(),128,128);
                         $avatar->setName($fichier);
                         $avatar->setSubscriber($user);
                         $user->setIsFull(true);

@@ -35,12 +35,13 @@ final class MainController extends AbstractController
 
     private function validateEmail(): Response
     {
+        $user =$this->getUser();
         $this->emailVerifier->sendEmailConfirmation(
             'app_verify_email',
-            $this->getUser(),
+            $user,
             (new TemplatedEmail())
                 ->from(new Address('webmaster@my-domain.org', 'webmaster'))
-                ->to((string) $this->getUser()->getEmail())
+                ->to((string) $user->getEmail())
                 ->subject('Please Confirm your Email')
                 ->htmlTemplate('registration/confirmation_email.html.twig')
         );
