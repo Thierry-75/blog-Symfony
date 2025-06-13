@@ -36,6 +36,7 @@ final class MainController extends AbstractController
     private function validateEmail(): Response
     {
         $user =$this->getUser();
+        if(isset($user)){
         $this->emailVerifier->sendEmailConfirmation(
             'app_verify_email',
             $user,
@@ -44,7 +45,7 @@ final class MainController extends AbstractController
                 ->to((string) $user->getEmail())
                 ->subject('Please Confirm your Email')
                 ->htmlTemplate('registration/confirmation_email.html.twig')
-        );
+        );}
         $this->addFlash('alert-warning', 'Vous devez confirmer votre adresse email');
         return $this->redirectToRoute('app_avatar');
     }
