@@ -39,6 +39,10 @@ services:
     networks:
       - webdev
 ###< symfony/mailer ###
+  redis:
+    image: redis:5-alpine
+    container_name: redis-adapa
+    ports: [6379]
 
 volumes:
   db-data:
