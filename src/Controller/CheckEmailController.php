@@ -12,7 +12,7 @@ use Symfony\Component\Mime\Address;
 final class CheckEmailController extends AbstractController
 {
 
-    public function __construct(private EmailVerifier $emailVerifier)
+    public function __construct(private readonly EmailVerifier $emailVerifier)
     {
     }
 
@@ -21,7 +21,7 @@ final class CheckEmailController extends AbstractController
     {
                     // generate a signed url and email it to the user
                     $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                    (new TemplatedEmail())
+                    new TemplatedEmail()
                         ->from(new Address('webmaster@my-domain.org', 'webmaster'))
                         ->to((string) $user->getEmail())
                         ->subject('Please Confirm your Email')

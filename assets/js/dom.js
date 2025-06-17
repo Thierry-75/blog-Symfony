@@ -1,4 +1,4 @@
-const clearBorder = function (champ) {
+const clearBorder = function (champ)  {
     champ.classList.remove('border-solide', 'border-2', 'border-green-300');
     champ.classList.remove('border-solide', 'border-2', 'border-red-300');
     champ.classList.add('border-none');

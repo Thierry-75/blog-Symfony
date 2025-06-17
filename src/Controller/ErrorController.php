@@ -2,15 +2,17 @@
 
 namespace App\Controller;
 
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class ErrorController extends AbstractController
 {
-    #[Route('/error', name: 'app_error')]
-    public function index($e): Response
+    #[Route('/error/{e}', name: 'app_error')]
+    public function index(Exception $e): Response
     {
-        return $this->render('bundles/TwigBundle/Exception/error'. $e . 'html.twig',['exception'=>$e]);
+        return $this->render('bundles/TwigBundle/Exception/error.html.twig',
+            ['status_code'=>'error_404','status_text'=>'Impossible d\'envoyer le mail']);
     }
 }

@@ -11,9 +11,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
+
 final class MainController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier) {}
+    public function __construct(private readonly EmailVerifier $emailVerifier) {}
 
     #[Route('/', name: 'app_main')]
     public function index(IntraController $intraController): Response
@@ -30,7 +31,7 @@ final class MainController extends AbstractController
             return $this->redirectToRoute('app_avatar');
         }
         //page
-        return $this->render('main/index.html.twig', []);
+        return $this->render('main/index.html.twig');
     }
 
     private function validateEmail(): Response
@@ -40,7 +41,7 @@ final class MainController extends AbstractController
         $this->emailVerifier->sendEmailConfirmation(
             'app_verify_email',
             $user,
-            (new TemplatedEmail())
+            new TemplatedEmail()
                 ->from(new Address('webmaster@my-domain.org', 'webmaster'))
                 ->to((string) $user->getEmail())
                 ->subject('Please Confirm your Email')

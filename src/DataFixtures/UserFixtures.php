@@ -26,7 +26,9 @@ class UserFixtures extends Fixture
                  ->setPassword($this->passwordEncoder->hashPassword($user,'ArethiA1975!'))
                  ->setIsVerified(mt_rand(0,1) === 1 ? true : false)
                  ->setRoles(mt_rand(0,1) === 1 ? ['ROLE_USER']: ['ROLE_USER','ROLE_REDACTOR'])
-                 ->setCreatedAt(new \DateTimeImmutable());
+                 ->setCreatedAt(new \DateTimeImmutable())
+                ->setIsVerified(mt_rand(0,1) === 1 ? true : false)
+                ->setIsFull(false);
             $manager->persist($user);
         }
 

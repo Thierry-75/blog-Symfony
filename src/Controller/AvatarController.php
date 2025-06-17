@@ -6,9 +6,11 @@ use App\Entity\User;
 use App\Entity\Avatar;
 use App\Form\AvatarForm;
 use App\Form\UpdateAvatarForm;
+use App\Service\MailService;
 use App\Service\PhotoService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,7 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class AvatarController extends AbstractController
 {
     /**
-     * show profil function
+     * show profile function
      */
     #[Route('/profil/show/{id}', name: 'app_avatar_profil', methods: ['GET'])]
     public function showProfil(User $user): Response
@@ -26,6 +28,7 @@ final class AvatarController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('avatar/index.html.twig', ['user' => $user]);
     }
+
     /**
      * create profil function
      *
@@ -33,10 +36,13 @@ final class AvatarController extends AbstractController
      * @param ValidatorInterface $validator
      * @param PhotoService $photoService
      * @param EntityManagerInterface $em
+     * @param MailService $mailService
      * @return Response
+     * @throws Exception
      */
     #[Route('/profil/add', name: 'app_avatar', methods: ['POST', 'GET'])]
-    public function addAvatar(Request $request, ValidatorInterface $validator, PhotoService $photoService, EntityManagerInterface $em): Response
+    public function addAvatar(Request $request, ValidatorInterface $validator, PhotoService $photoService, EntityManagerInterface $em, MailService $mailService
+    ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -60,11 +66,13 @@ final class AvatarController extends AbstractController
                         $em->persist($avatar);
                         $em->persist($user);
                         $em->flush();
+                        $webmaster ='webmaster@my-domain.org';
+                        $mailService->sendMail($webmaster,$user->getEmail(),'Profil complet','confirmation',['user'=> $user]);
                         $this->addFlash('alert-success', 'Votre profil a été ajouté !');
-                        return $this->redirectToRoute('app_avatar_profil', ['id' => $user->getId()]); // $this->redirecToRoute('app_avatar_profil',['id'=>$avatar->getId()])
+                        return $this->redirectToRoute('app_avatar_profil', ['id' => $user->getId()]);
                     }
                 } catch (EntityNotFoundException $e) {
-                    return $this->redirectToRoute('app_error', ['exception' => $e]);
+                    return $this->redirectToRoute('app_error',['exception'=>$e]);
                 }
             }
         }
@@ -83,6 +91,7 @@ final class AvatarController extends AbstractController
      * @param PhotoService $photoService
      * @param EntityManagerInterface $em
      * @return Response
+     * @throws Exception
      */
     #[Route('/profil/update/{id}', name: 'app_avatar_update', methods: ['GET', 'POST'])]
     public function updateAvatar(User $user, Avatar $avatar, Request $request, ValidatorInterface $validator, PhotoService $photoService, EntityManagerInterface $em): Response
