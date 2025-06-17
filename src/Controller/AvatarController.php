@@ -6,14 +6,16 @@ use App\Entity\User;
 use App\Entity\Avatar;
 use App\Form\AvatarForm;
 use App\Form\UpdateAvatarForm;
-use App\Service\MailService;
+use App\Message\SendEmailNotification;
 use App\Service\PhotoService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -36,12 +38,12 @@ final class AvatarController extends AbstractController
      * @param ValidatorInterface $validator
      * @param PhotoService $photoService
      * @param EntityManagerInterface $em
-     * @param MailService $mailService
+     * @param MessageBusInterface $messageBus
      * @return Response
      * @throws Exception
      */
     #[Route('/profil/add', name: 'app_avatar', methods: ['POST', 'GET'])]
-    public function addAvatar(Request $request, ValidatorInterface $validator, PhotoService $photoService, EntityManagerInterface $em, MailService $mailService
+    public function addAvatar(Request $request, ValidatorInterface $validator, PhotoService $photoService, EntityManagerInterface $em, MessageBusInterface $messageBus
     ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -67,7 +69,8 @@ final class AvatarController extends AbstractController
                         $em->persist($user);
                         $em->flush();
                         $webmaster ='webmaster@my-domain.org';
-                        $mailService->sendMail($webmaster,$user->getEmail(),'Profil complet','confirmation',['user'=> $user]);
+                        $url = $this->generateUrl('app_main', [], UrlGeneratorInterface::ABSOLUTE_URL);
+                        $messageBus->dispatch(new SendEmailNotification($webmaster,$user->getEmail(),'Profil complet','confirmation',['user'=> $user,'url'=>$url]));
                         $this->addFlash('alert-success', 'Votre profil a été ajouté !');
                         return $this->redirectToRoute('app_avatar_profil', ['id' => $user->getId()]);
                     }

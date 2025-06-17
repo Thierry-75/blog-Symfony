@@ -14,10 +14,6 @@ class MailService
     {
         $this->mailer = $mailer;
     }
-
-    /**
-     * @throws TransportExceptionInterface
-     */
     public function sendMail(string $from, string $to, string $subject, string $template, array $context): void
     {
         $email = new TemplatedEmail()
@@ -26,7 +22,9 @@ class MailService
             ->subject($subject)
             ->htmlTemplate("email/" . $template. ".html.twig")
             ->context($context);
+        try {
             $this->mailer->send($email);
+        }catch (TransportExceptionInterface $e){}
     }
 
 }

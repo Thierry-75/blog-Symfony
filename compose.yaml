@@ -4,14 +4,13 @@ services:
     image: mariadb:latest
     container_name: mariadb-blog
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql/data:rw
     environment:
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
       MARIADB_DATABASE: 'blog_db'
-    networks:
-      - weblog
+
 
   phpmyadmin:
     image: phpmyadmin:latest
@@ -19,12 +18,10 @@ services:
     depends_on:
       - db
     ports:
-      - 8085:80
+      - "8085:80"
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: 'root'
-    networks:
-      - weblog
 
   ###> symfony/mailer ###
   mailer:
@@ -36,17 +33,38 @@ services:
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
-    networks:
-      - weblog
 ###< symfony/mailer ###
   redis:
     image: redis:5-alpine
     container_name: redis-adapa
-    ports: [6379]
-    networks:
-      - weblog
+    ports: [ "6379" ]
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: localhost
+    volumes:
+      - rmqconf:/etc/rabbitmq
+      - rmqdata:/var/lib/rabbitmq/mnesia
+      - rmqlogs:/var/log/rabbitmq
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "${CUSTOM_RABBIT_MANAGER_PORT}:15672"
+      - "${CUSTOM_RABBIT_PORT}:5672"
+    env_file:
+      - .env
+
 
 volumes:
   db-data:
-networks:
+  networks:
   weblog:
+  rmqconf:
+    driver: local
+  rmqlogs:
+    driver: local
+  rmqdata:
+    driver: local
