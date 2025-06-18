@@ -24,7 +24,7 @@ class MailService
             ->context($context);
         try {
             $this->mailer->send($email);
-        }catch (TransportExceptionInterface $e){}
+        }catch (TransportExceptionInterface){}
     }
 
 }

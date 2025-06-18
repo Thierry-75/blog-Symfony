@@ -4,11 +4,11 @@ namespace App\Message;
 
 final class SendEmailNotification
 {
-private $from;
-private $to;
-private $subject;
-private $template;
-private $context;
+private string $from;
+private string $to;
+private string $subject;
+private string $template;
+private array $context;
 
     /**
      * @param $from
@@ -27,41 +27,41 @@ private $context;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getFrom()
+    public function getFrom(): string
     {
         return $this->from;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getContext()
+    public function getContext(): array
     {
         return $this->context;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTemplate()
+    public function getTemplate(): string
     {
         return $this->template;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getSubject()
+    public function getSubject(): string
     {
         return $this->subject;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTo()
+    public function getTo(): string
     {
         return $this->to;
     }

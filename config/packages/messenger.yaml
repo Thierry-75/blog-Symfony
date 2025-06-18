@@ -6,7 +6,7 @@ framework:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             async:
                 dsn: '%env(RABBITMQ_DSN)%'
-            # sync: 'sync://'
+
 
         default_bus: messenger.bus.default
 

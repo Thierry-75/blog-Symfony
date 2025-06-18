@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,19 +32,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $plainPassword = null;
 
     /**
-     * @var string The hashed password
+     * @var string|null The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
     private bool $isVerified = false;
 
     #[ORM\Column]
     private ?bool $isFull = false;
+
+    #[ORM\Column(type: 'string',length: 100)]
+    private mixed $resetToken;
 
     #[ORM\OneToOne(mappedBy: 'subscriber', cascade: ['persist', 'remove'])]
     private ?Avatar $avatar = null;
@@ -129,12 +133,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
@@ -144,7 +148,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         /**
      * Get the value of plainPassword
      */ 
-    public function getPlainPassword()
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
@@ -152,9 +156,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Set the value of plainPassword
      *
+     * @param $plainPassword
      * @return  self
      */ 
-    public function setPlainPassword($plainPassword)
+    public function setPlainPassword($plainPassword): static
     {
         $this->plainPassword = $plainPassword;
 
@@ -201,4 +206,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getResetToken():string
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * @param mixed $resetToken
+     */
+    public function setResetToken(mixed $resetToken): void
+    {
+        $this->resetToken = $resetToken;
+    }
+
 }
