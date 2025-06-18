@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\MaintenanceService;
 
 final class AvatarController extends AbstractController
 {
@@ -43,7 +44,9 @@ final class AvatarController extends AbstractController
      * @throws Exception
      */
     #[Route('/profil/add', name: 'app_avatar', methods: ['POST', 'GET'])]
-    public function addAvatar(Request $request, ValidatorInterface $validator, PhotoService $photoService, EntityManagerInterface $em, MessageBusInterface $messageBus
+    public function addAvatar(Request $request, ValidatorInterface $validator,
+                              PhotoService $photoService, EntityManagerInterface $em,
+                              MessageBusInterface $messageBus,MaintenanceService $maintenanceService
     ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -68,9 +71,8 @@ final class AvatarController extends AbstractController
                         $em->persist($avatar);
                         $em->persist($user);
                         $em->flush();
-                        $webmaster ='webmaster@my-domain.org';
                         $url = $this->generateUrl('app_main', [], UrlGeneratorInterface::ABSOLUTE_URL);
-                        $messageBus->dispatch(new SendEmailNotification($webmaster,$user->getEmail(),'Profil complet','confirmation',['user'=> $user,'url'=>$url]));
+                        $messageBus->dispatch(new SendEmailNotification($maintenanceService->getWebmaster(),$user->getEmail(),'Profil complet','confirmation',['user'=> $user,'url'=>$url]));
                         $this->addFlash('alert-success', 'Votre profil a été ajouté !');
                         return $this->redirectToRoute('app_avatar_profil', ['id' => $user->getId()]);
                     }
@@ -97,7 +99,9 @@ final class AvatarController extends AbstractController
      * @throws Exception
      */
     #[Route('/profil/update/{id}', name: 'app_avatar_update', methods: ['GET', 'POST'])]
-    public function updateAvatar(User $user, Avatar $avatar, Request $request, ValidatorInterface $validator, PhotoService $photoService, EntityManagerInterface $em): Response
+    public function updateAvatar(User $user, Avatar $avatar, Request $request, ValidatorInterface $validator,
+                                 PhotoService $photoService, EntityManagerInterface $em,
+                                 MessageBusInterface $messageBus,MaintenanceService $maintenanceService): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $form_update = $this->createForm(UpdateAvatarForm::class, $avatar);
@@ -111,7 +115,6 @@ final class AvatarController extends AbstractController
                 try {
                     $photo = $form_update->get('image')->getData();
                     if ($photo->getClientOriginalExtension() == 'png') {
-
                         $photoService->delete($avatar->getName(), $user->getFolder(), 128, 128);
                         $fichier = $photoService->add($photo, $user->getEmail(), $user->getFolder(), 128, 128);
                         $avatar->setName($fichier);
@@ -119,6 +122,8 @@ final class AvatarController extends AbstractController
                         $user->setIsFull(true);
                         $em->persist($avatar);
                         $em->flush();
+                        $url = $this->generateUrl('app_main',[],UrlGeneratorInterface::ABSOLUTE_URL);
+                        $messageBus->dispatch(new SendEmailNotification($maintenanceService->getWebmaster(),$user->getEmail(),'Profil changé','new_password',['user'=>$user,'url'=>$url]));
                         $this->addFlash('alert-success', 'votre profil a été modifié !');
                         return $this->redirectToRoute('app_avatar_profil', ['id' => $user->getId()]);
                     }

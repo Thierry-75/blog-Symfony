@@ -24,7 +24,7 @@ final class CheckEmailController extends AbstractController
                     new TemplatedEmail()
                         ->from(new Address('webmaster@my-domain.org', 'webmaster'))
                         ->to((string) $user->getEmail())
-                        ->subject('Please Confirm your Email')
+                        ->subject('Veuillez confirmer votre adresse mail')
                         ->htmlTemplate('registration/confirmation_email.html.twig')
                 );
     

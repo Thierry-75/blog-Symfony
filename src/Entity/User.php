@@ -46,12 +46,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isFull = false;
 
-    #[ORM\Column(type: 'string',length: 100)]
-    private mixed $resetToken;
+    #[ORM\Column(type: 'string',length: 100,nullable: true)]
+    private mixed $resetToken =null;
 
     #[ORM\OneToOne(mappedBy: 'subscriber', cascade: ['persist', 'remove'])]
     private ?Avatar $avatar = null;
 
+    #[ORM\Column(nullable: false)]
+    private ?bool $isLetter = true;
     
     private ?string $folder ="avatars";
 
@@ -221,6 +223,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResetToken(mixed $resetToken): void
     {
         $this->resetToken = $resetToken;
+    }
+
+    public function isLetter(): ?bool
+    {
+        return $this->isLetter;
+    }
+
+    public function setIsLetter(?bool $isLetter): static
+    {
+        $this->isLetter = $isLetter;
+
+        return $this;
     }
 
 }

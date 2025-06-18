@@ -28,7 +28,8 @@ class UserFixtures extends Fixture
                  ->setRoles(mt_rand(0,1) === 1 ? ['ROLE_USER']: ['ROLE_USER','ROLE_REDACTOR'])
                  ->setCreatedAt(new \DateTimeImmutable())
                 ->setIsVerified(mt_rand(0,1) === 1 ? true : false)
-                ->setIsFull(false);
+                ->setIsFull(false)
+                ->setIsLetter(mt_rand(0,1) === 1 ? true: false);
             $manager->persist($user);
         }
 

@@ -68,15 +68,16 @@ class RegistrationForm extends AbstractType
                 ]),
             ],
         ])
-        ->addEventListener(FormEvents::POST_SUBMIT, $this->addDate(...))
+        ->addEventListener(FormEvents::POST_SUBMIT, $this->addData(...))
         ;
     }
 
-    public function addDate(PostSubmitEvent $event)
+    public function addData(PostSubmitEvent $event)
     {
         $data = $event->getData();
         if (!($data instanceof User)) return;
         $data->setCreatedAt(new \DateTimeImmutable());
+        $data->setIsLetter(true);
     }
     public function configureOptions(OptionsResolver $resolver): void
     {

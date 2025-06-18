@@ -49,7 +49,10 @@ class CreateAdminCommand extends Command
             ->setPlainPassword($plainPassword)
             ->setRoles(['ROLE_REDACTOR,ROLE_ADMIN'])
             ->setCreatedAt(new  \DateTimeImmutable())
-            ->setIsVerified(true);
+            ->setIsVerified(true)
+            ->setIsFull(false)
+            ->setIsLetter(true);
+
         $this->em->persist($admin);
         $this->em->flush();
         $io->success('Le compte administrateur a été créé !');
