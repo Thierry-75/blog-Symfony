@@ -61,18 +61,22 @@ class SecurityController extends AbstractController
                 if($user){
                     //jeton
                     $token = $tokenGenerator->generateToken();
-                    //record data
-                    $user->setResetToken($token);
-                    $entityManager->persist($user);
-                    $entityManager->flush();
-                    //lien
-                    $url = $this->generateUrl('reset_pass',['token'=>$token],UrlGeneratorInterface::ABSOLUTE_URL);
-                    // datas mail
-                    $context = ['url'=>$url,'user'=>$user];
-                    $webmaster ='webmaster@my-domain.org';
-                    $mailService->sendMail($webmaster,$user->getEmail(),'Réinitialisation de mot de passe','password_reset',$context);
-                    $this->addFlash('alert-success','lien email envoyé !');
-                    return $this->redirectToRoute('app_login');
+                    try {
+                        //record data
+                        $user->setResetToken($token);
+                        $entityManager->persist($user);
+                        $entityManager->flush();
+                        //lien
+                        $url = $this->generateUrl('reset_pass', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+                        // datas mail
+                        $context = ['url' => $url, 'user' => $user];
+                        $webmaster = 'webmaster@my-domain.org';
+                        $mailService->sendMail($webmaster, $user->getEmail(), 'Réinitialisation de mot de passe', 'password_reset', $context);
+                        $this->addFlash('alert-success', 'lien email envoyé !');
+                        return $this->redirectToRoute('app_login');
+                    }catch (EntityNotFoundException $e){
+                        return $this->redirectToRoute('app_error',['exception'=>$e]);
+                    }
                 }
                 $this->addFlash('alert-danger','Un problème est survenu');
                 return $this->redirectToRoute('app_login');
@@ -104,11 +108,12 @@ class SecurityController extends AbstractController
                         $entityManager->persist($user);
                         $entityManager->flush();
                         $webmaster ='webmaster@my-domain.org';
-                        $messageBus->dispatch(new SendEmailNotification($webmaster,$user->getEmail(),'Nouveau mot de passe','new_password',['user'=>$user]));
+                        $url = $this->generateUrl('app_main', [], UrlGeneratorInterface::ABSOLUTE_URL);
+                        $messageBus->dispatch(new SendEmailNotification($webmaster,$user->getEmail(),'Nouveau mot de passe','new_password',['user'=>$user,'url'=>$url]));
                         $this->addFlash('alert-success','Votre mot de passe a été modifié !');
                         return $this->redirectToRoute('app_login');
-                    }catch (EntityNotFoundException){
-
+                    }catch (EntityNotFoundException $e){
+                        return $this->redirectToRoute('app_error',['exception'=>$e]);
                     }
                 }
             }
