@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Service\MaintenanceService;
+use App\Service\Variables;
 
 final class AvatarController extends AbstractController
 {
@@ -43,10 +43,10 @@ final class AvatarController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    #[Route('/profil/add', name: 'app_avatar', methods: ['POST', 'GET'])]
+    #[Route('/profil/add/', name: 'app_avatar', methods: ['POST', 'GET'])]
     public function addAvatar(Request $request, ValidatorInterface $validator,
                               PhotoService $photoService, EntityManagerInterface $em,
-                              MessageBusInterface $messageBus,MaintenanceService $maintenanceService
+                              MessageBusInterface $messageBus,Variables $variables
     ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -64,7 +64,7 @@ final class AvatarController extends AbstractController
                     $photo = $avatarForm->get('image')->getData();
                     if (($photo->getClientOriginalExtension()) == 'png') {
                         $user = $em->getRepository(User::class)->find($this->getUser());
-                        $fichier = $photoService->add($photo, $user->getEmail(), $user->getFolder(), 128, 128);
+                        $fichier = $photoService->add($photo, $user->getEmail(), $variables->getFolder(), 128, 128);
                         $avatar->setName($fichier);
                         $avatar->setSubscriber($user);
                         $user->setIsFull(true);
@@ -72,7 +72,7 @@ final class AvatarController extends AbstractController
                         $em->persist($user);
                         $em->flush();
                         $url = $this->generateUrl('app_main', [], UrlGeneratorInterface::ABSOLUTE_URL);
-                        $messageBus->dispatch(new SendEmailNotification($maintenanceService->getWebmaster(),$user->getEmail(),'Profil complet','confirmation',['user'=> $user,'url'=>$url]));
+                        $messageBus->dispatch(new SendEmailNotification($variables->getWebmaster(),$user->getEmail(),'Profil complet','confirmation',['user'=> $user,'url'=>$url]));
                         $this->addFlash('alert-success', 'Votre profil a été ajouté !');
                         return $this->redirectToRoute('app_avatar_profil', ['id' => $user->getId()]);
                     }
@@ -99,9 +99,9 @@ final class AvatarController extends AbstractController
      * @throws Exception
      */
     #[Route('/profil/update/{id}', name: 'app_avatar_update', methods: ['GET', 'POST'])]
-    public function updateAvatar(User $user, Avatar $avatar, Request $request, ValidatorInterface $validator,
+    public function updateAvatar(Avatar $avatar, Request $request, ValidatorInterface $validator,
                                  PhotoService $photoService, EntityManagerInterface $em,
-                                 MessageBusInterface $messageBus,MaintenanceService $maintenanceService): Response
+                                 MessageBusInterface $messageBus,Variables $variables): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $form_update = $this->createForm(UpdateAvatarForm::class, $avatar);
@@ -115,23 +115,23 @@ final class AvatarController extends AbstractController
                 try {
                     $photo = $form_update->get('image')->getData();
                     if ($photo->getClientOriginalExtension() == 'png') {
-                        $photoService->delete($avatar->getName(), $user->getFolder(), 128, 128);
-                        $fichier = $photoService->add($photo, $user->getEmail(), $user->getFolder(), 128, 128);
+                        $photoService->delete($avatar->getName(), $variables->getFolder(), 128, 128);
+                        $fichier = $photoService->add($photo, $this->getUser()->getEmail(), $variables->getFolder(), 128, 128);
                         $avatar->setName($fichier);
-                        $avatar->setSubscriber($user);
-                        $user->setIsFull(true);
+                        $avatar->setSubscriber($this->getUser());
+                        $this->getUser()->setIsFull(true);
                         $em->persist($avatar);
                         $em->flush();
                         $url = $this->generateUrl('app_main',[],UrlGeneratorInterface::ABSOLUTE_URL);
-                        $messageBus->dispatch(new SendEmailNotification($maintenanceService->getWebmaster(),$user->getEmail(),'Profil changé','new_password',['user'=>$user,'url'=>$url]));
+                        $messageBus->dispatch(new SendEmailNotification($variables->getWebmaster(),$this->getUser()->getEmail(),'Profil changé','new_password',['user'=>$this->getUser(),'url'=>$url]));
                         $this->addFlash('alert-success', 'votre profil a été modifié !');
-                        return $this->redirectToRoute('app_avatar_profil', ['id' => $user->getId()]);
+                        return $this->redirectToRoute('app_avatar_profil', ['id' => $this->getUser()->getId()]);
                     }
                 } catch (EntityNotFoundException $e) {
                     return $this->redirectToRoute('app_error', ['exception' => $e]);
                 }
             }
         }
-        return $this->render('avatar/update.html.twig', ['Form_update' => $form_update, 'user' => $user]);
+        return $this->render('avatar/update.html.twig', ['Form_update' => $form_update, 'user' => $this->getUser()]);
     }
 }

@@ -55,12 +55,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: false)]
     private ?bool $isLetter = true;
     
-    private ?string $folder ="avatars";
-
-    public function getFolder(): ?string
-    {
-        return $this->folder;
-    }
 
     public function getId(): ?int
     {

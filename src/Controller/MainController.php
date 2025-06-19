@@ -31,7 +31,7 @@ final class MainController extends AbstractController
             return $this->redirectToRoute('app_avatar');
         }
         //page
-        return $this->render('main/index.html.twig');
+        return $this->render('main/index.html.twig',['user'=>$this->getUser()]);
     }
 
     private function validateEmail(): Response
